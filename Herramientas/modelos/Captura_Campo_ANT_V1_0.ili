@@ -1,0 +1,1702 @@
+INTERLIS 2.3;
+
+MODEL Captura_Campo_ANT_V1_0 (es)
+AT "mailto:shade@localhost"
+VERSION "2020-07-21"  =
+  IMPORTS LADM_COL_V3_1,ISO19107_PLANAS_V3_0;
+
+  DOMAIN
+
+    CCA_Acabados = (
+      !!@ ili2db.dispName = "Menor que el basico"
+      Menor_basico,
+      !!@ ili2db.dispName = "Acabados Básicos"
+      Acabados_Basicos,
+      !!@ ili2db.dispName = "Mayor que el básico"
+      Mayor_basico
+    );
+
+    CCA_AnexoTipo = (
+      Enramadas_Cobertizos_Caneyes(
+        /** Locales de venta de vehículos: Estructura concreto, cubierta cercha metálica y teja canaleta; fachada vidrio y polarizado, piso baldosín conservación general buena.
+         */
+        Tipo_90,
+        /** Estructura metálica; cubierta de zinc, eternit o teja de barro, pisos de cemento, conservación general buena.
+         */
+        Tipo_80,
+        /** Estructura en madera fina; cubierta de zinc, eternit o teja de barro pisos de cemento; conservación general buena a regular.
+         */
+        Tipo_60,
+        /** Estructura en madera común; cubierta de zinc, eternit o teja de barro; pisos en tierra; conservación regular a mala.
+         */
+        Tipo_40
+      ),
+      Galpones_Gallineros(
+        /** Estructura metálica o madera fina, cubierta de zinc, eternit o teja de barro; muros a mediana altura en bloque o ladrillo; pisos de cemento; conservación general buena.
+         */
+        Tipo_80,
+        /** Estructura ladrillo o bloque; cubierta de zinc, eternit o teja de barro semi muros en bloque o ladrillo; pisos de cemento; conservación general buena a regular.
+         */
+        Tipo_60,
+        /** Estructura en ladrillo, bloque o madera sencilla; cubierta de zinc, eternit o teja de barro; con o sin muros; pisos en tierra; conservación regular a mala.
+         */
+        Tipo_40,
+        /** Estructura en madera; cubierta de zinc, eternit, teja de barro, paja o material de desecho; con o sin muros; pisos en tierra; conservación regular o mala.
+         */
+        Tipo_20
+      ),
+      Establos_Pesebreras(
+        /** Estructura metálica o de concreto; cubierta de zinc, eternit a teja de barro muros en bloque o ladrillo, pisos de cemento, conservación en general buena.
+         */
+        Tipo_80,
+        /** Estructura en bloque, ladrillo o madera fina; cubierta de zinc, eternit o teja de barro muros en bloque o ladrillo, pisos de cemento, conservación en general buena o regular
+         */
+        Tipo_60,
+        /** Estructura en ladrillo cubierta  de  zinc,  eternit  o  teja  de  barro  muros de ladrillo, pisos en tierra, conservación regular a mala.
+         */
+        Tipo_40,
+        /** Estructura en madera cubierta de  zinc,  eternit  o  teja  de  barro  muros en madera, pisos en tierra, conservación regular a mala.
+         */
+        Tipo_20
+      ),
+      Cocheras_Marraneras_Porquerizas(
+        /** Estructura concreto; cubierta de zinc, eternit o teja de barro, muros en bloque o ladrillo, pisos en cemento o baldosa, conservación general buena.
+         */
+        Tipo_80,
+        /** Estructura en ladrillo o bloque, cubierta de zinc, eternit o teja de barro, semi muros en bloque o ladrillo, pisos en cemento o baldosa conservación general buena a regular.
+         */
+        Tipo_60,
+        /** Estructura en ladrillo; cubierta de zinc, eternit o teja de barro; con muros o sin muros; pisos en tierra; conservación regular a mala.
+         */
+        Tipo_40,
+        /** Estructura en madera; cubierta de zinc, eternit o teja de barro con o sin muros, pisos en tierra, conservación regular a mala.
+         */
+        Tipo_20
+      ),
+      Silos(
+        /** Estructura en ferroconcreto metálica
+         */
+        Tipo_80,
+        /** Estructura en concreto
+         */
+        Tipo_60
+      ),
+      Piscinas(
+        /** Piscinas olímpicas, con sistemas de purificación e iluminación; enchape en azulejo fino, trampolín a diferentes alturas. Se encuentra comúnmente en clubes y coliseos.
+         */
+        Tipo_80,
+        /** Piscinas semi olímpicas, con sistemas de purificación; enchape en azulejo fino, comunes en clubes y centros de recreación.
+         */
+        Tipo_60,
+        /** Piscinas de tamaño mediano, enchape en azulejo, sistemas de purificación rudimentaria, comunes en fincas de recreo o centros de recreación.
+         */
+        Tipo_50,
+        /** Piscinas pequeña, cubierta en baldosín o cemento. Comunes en fincas o casas de campo
+         */
+        Tipo_40
+      ),
+      Tanques(
+        /** Tanques que por su capacidad y/b altura requieren estructura en ferroconcreto con revestimiento, encontrándose en buen estado de conservación.
+         */
+        Tipo_80,
+        /** Tanques de mediana capacidad con estructura metálica con altura o profundidad no superior a 10 metros; en buen estado de conservación.
+         */
+        Tipo_60,
+        /** Tanques pequeños con estructura en ladrillo o bloque revestido en cemento con altura no mayor a 3 metros o poca profundidad; conservación buena a regular.
+         */
+        Tipo_50,
+        /** Tanques con altura menor a 3 metros o poca profundidad; estructura en ladrillo conservación regular a mala.
+         */
+        Tipo_40
+      ),
+      Beneficiaderos(
+        /** Estructura en ladrillo o bloque; cubierta en zinc, teja de barro o eternit rustico; pisos en cemento, con tanques lavadores y serpentina o canal de carreteo y silo o patio quindiano incorporado estado de conservación bueno a regular.
+         */
+        Tipo_80,
+        /** Estructura en madera; muros en ladrillos o bloque; cubierta en zinc, teja de barro o eternit; existencia de tanques y/o silos; pisos en cemento estado de conservación bueno a regular.
+         */
+        Tipo_60,
+        /** Beneficiaderos construidos en materiales económicos (bareque, tapia) pisos en tierra conservación regular a mala; se encuentran en este tipo los elementos apenas necesarios: tanques, despulpaderos, canales, etc. en condiciones rudimentarias, comunes en fincas minifundistas.
+         */
+        Tipo_40
+      ),
+      Secaderos(
+        /** Estructura metálica y cercha de madera o metálica muros medianos o totales en ladrillo marquesina de vidrio; pisos en cemento; estado de conservación buena.
+         */
+        Tipo_80,
+        /** Estructura en ladrillo; pisos en cemento; oreador en madera con sistema de rodamiento; buen estado de conservación.
+         */
+        Tipo_60,
+        /** Estructura en madera pisos en tierra oreador con especificaciones mínimas; estado de conservación regular a mala. Dentro de este tipo se consideran as condiciones de los tipos anteriores, que se encuentran en regular a mal estado de conservación
+         */
+        Tipo_40
+      ),
+      Kioscos(
+        /** Estructura en bloque o ladrillo cubierta en zinc, teja de barro o paja; estado de conservación general bueno.
+         */
+        Tipo_80,
+        /** Estructura metálica; todo tipo de cubiertas; piso en cemento; estado de conservación bueno a regular
+         */
+        Tipo_60,
+        /** Estructura en madera fina; todo tipo de cubiertas; piso en cemento; estado de conservación bueno a regular.
+         */
+        Tipo_40,
+        /** Estructura en madera común; cubierta en zinc, paja o teja de barro piso en tierra estado de conservación regular a mala.
+         */
+        Tipo_20
+      ),
+      Albercas_Baniaderas(
+        /** Estructura en concreto; cubierta en zinc, eternit o teja de barro; piso en cemento; conservación buena a regular.
+         */
+        Tipo_80,
+        /** Estructura en ladrillo; cubierta en zinc, eternit o teja de barro; piso  en cemento; conservación buena a regular.
+         */
+        Tipo_60,
+        /** Estructura en madera; cubierta en zinc, eternit o teja de barro; piso en cemento; conservación regular a mala. Se incluyen en este tipo las condiciones dadas en los anteriores en mal estado de conservación.
+         */
+        Tipo_40
+      ),
+      Corrales(
+        /** Estructura metálica o de madera aserrada, formado por cuatro varales, pisos en cemento y conservación buena.
+         */
+        Tipo_80,
+        /** Estructura en madera aserrada, formado por tres varales, pisos en cemento y conservación general buena.
+         */
+        Tipo_60,
+        /** Estructura en madera aserrada, formado por tres varales, pisos en tierra y conservación general regular a mala.
+         */
+        Tipo_40,
+        /** Estructura en madera burda, pisos en tierra y conservación general regular a mala
+         */
+        Tipo_20
+      ),
+      Pozos(
+        /** Pozo de profundidad aproximada a 40 m, revestido en concreto, con tubería, anillado 100% , diámetro pozo de 2m
+         */
+        Tipo_80,
+        /** Pozo de profundidad aproximada 20 m, revestido en concreto, con tubería, anillado 100 % , diámetro pozo < 2m
+         */
+        Tipo_60,
+        /** Pozo profundidad < a 10m, sin revestimiento ni anillar, diámetro pozo de 2m
+         */
+        Tipo_40
+      ),
+      /** Estructura en concreto y tanque en concreto, fibrocemento o metálico con recubrimiento interior en resinas de poliéster reforzadas con fibra de vidrio, partes metálicas en acero inoxidable o galvanizadas buen estado de conservación
+       */
+      TorresEnfriamiento,
+      Muelles(
+        /** Muelle, estructura en concreto, piso en madera deck para exteriores
+         */
+        Tipo_80,
+        /** Muelle, estructura y piso en concreto
+         */
+        Tipo_60,
+        /** Muelle, estructura y, piso en madera.
+         */
+        Tipo_40
+      ),
+      CanchasTenis(
+        /** Cancha de tenis en polvo de ladrillo, incluye cerramiento en malla eslabonada.
+         */
+        Tipo_20,
+        /** Cancha de tenis en Cemento y/o asfalto, incluye cerramiento en Malla eslabonada.
+         */
+        Tipo_10
+      ),
+      Toboganes(
+        /** Altura entre 9 y 15 Mts., longitud de canal entre 75 y 120 Mts. Fibra de vidrio. Estructura de concreto o metálica. Incluye piscina de Llegada. Sistema de bombeo, purificación.
+         */
+        Tipo_80,
+        /** Altura entre 3 y 9 Mts., longitud 25 a 75 Mts. Estructura y soportes en concreto o metálica. Incluye piscina de acceso y sistema de bombeo y purificación.
+         */
+        Tipo_60,
+        /** Altura de 6 a 9 Mts. Únicamente deslizadero de velocidad de longitud de 20 a 40 Mts. Equipo de bombeo y purificación. Estructura metálica o concreto; piscina de acceso.
+         */
+        Tipo_50,
+        /** Altura de 3 a 5 Mts. Únicamente deslizadero; longitud de 10 a 20 Mts. No tienen planta de tratamiento ni de bombeo.
+         */
+        Tipo_40
+      ),
+      /** Cobertizo dentro de una edificación de mayor extensión o patio cubierto, clasificados según su estructura, pisos y el material de la cubierta. Según su estado de conservación y capacidad se divide en tipologías 80, 60, 40 y 20 donde se presentan mejores características en la 80 que en las demás.
+       */
+      Marquesinas_Patios_Cubiertos(
+        /** Estructura metálica; cubierta cristalita o vidrio; piso en baldosa fina.
+         */
+        Tipo_80,
+        /** Estructura metálica; cubierta en cristalita o vidrio; piso en baldosa común.
+         */
+        Tipo_60,
+        /** Estructura metálica; cubierta de eternit y piso en cemento.
+         */
+        Tipo_40,
+        /** Estructura en madera; cubierta de zinc o eternit; Piso en baldosín o cemento.
+         */
+        Tipo_20
+      ),
+      Estadios_Coliseos(
+        /** Estadio, estructura en concreto reforzado, graderías, con o sin cubierta parcial, capacidad mayor a 8.000 personas
+         */
+        Tipo_80,
+        /** Estadio, estructura en concreto reforzado, graderías, con o sin cubierta parcial, capacidad mayor a 8.000 personas
+         */
+        Tipo_60,
+        /** Coliseo, incluye cerramiento en malla, o en bloque pañetado cancha multifuncional, cubierta en teja termo acústica
+         */
+        Tipo_40
+      ),
+      /** Recintos cerrados, generalmente circulares y descubiertos, donde se celebran las corridas de toros.
+       */
+      Plazas_de_Toros(
+        /** Plaza de toros con estructura en concreto y madera capacidad de más de 10000 espectadores
+         */
+        Tipo_80,
+        /** Plaza de toros para corralejas, estructura en madera capacidad menor a 4000 estructura en concreto y madera capacidad
+         */
+        Tipo_20
+      ),
+      Via_Ferrea(
+        /** Via férrea de trocha  normal o estándar (4 pies, 8 1/2 pulgadas o 1435 metros) con capacidad de transporte mayor a 50 toneladas, conformada por una capa de balasto, sobre la cual se disponen traviesas de madera que soportan los rieles, entiéndase como trocha a la distancia mínima entre los dos rieles.
+         */
+        Tipo_80,
+        /** Via férrea de trocha angosta o yardica de 0.915 metros con capacidad menor a 50 toneladas, conformada por una capa de balasto, sobre la cual se disponen traviesas de madera que soportan los rieles, entiéndase como trocha a la distancia mínima entre los dos rieles.
+         */
+        Tipo_60
+      ),
+      Carreteras(
+        /** Carretera pavimentada. Compuesta de una subbase granular, base en suelo cemento y carpeta asfáltica, entiéndase por sub_base granular como la capa de material granular situada entre la base del firme y la explanada.
+         */
+        Tipo_60,
+        /** Carretera sin pavimento. Compuesta de una sub_base granular, entiéndase por sub_base granular como la capa de material granular situada entre la base del firme y la explanada.
+         */
+        Tipo_40
+      ),
+      Cimientos_Estructura_Muros_Placabase(
+        /** Cimientos y estructura soportes verticales (columnas) y horizontales (vigas) destinados a sostener la totalidad o parte de la futura construcción o edificación, acompañados de muros y placas base. Esta tipología se caracteriza por presentar de manera simultánea los 4 elementos (Cimientos, Estructura, Muro o Pared y Losa de Contra piso)
+         */
+        Tipo_80,
+        /** Cimentación y estructura con soportes verticales (columnas) y horizontales (vigas) destinados a sostener la totalidad o parte de la futura construcción o edificación, acompañados de muros o placas base. Esta tipología se caracteriza por presentar de manera simultánea 3 elementos (Cimientos, Estructura, y alguno de estos dos elementos Muro Pared o Losa en Contra piso)
+         */
+        Tipo_60,
+        /** Cimentación sin estructura destinada a sostener la totalidad o parte de una futura construcción o edificación, pueden estar acompañados de muros o placas base. Esta tipología se caracteriza por presentar de manera simultánea 2 elementos (Cimientos y alguno de estos dos elemetnos Muro Pared o Losa de Contra piso)
+         */
+        Tipo_40,
+        /** Cimentación sin estructura, destinada a sostener la totalidad o parte de una futura construcción o edificación. Esta tipología se caracteriza por presentar un solo elemento, la cimentación.
+         */
+        Tipo_20
+      ),
+      /** La infraestructura básica aeroportuaria está formada por las pistas, las pistas de carreteo, la zona de aparcamiento de los aviones, los puentes de embarque, las terminales de pasajeros y de carga y los intercambios de transporte en tierra.
+       */
+      Estructuras_Aeroportuarias(
+        /** Radar tipo I, estructura en concreto, piso en mortero afinado
+         * Radar tipo II, estructura en concreto, piso en mortero afinado.
+         */
+        Tipo_80,
+        /** Hangar, muros perimetrales en concreto, columnas y vigas de amarre con celosía para cubierta, cubierta en teja termo acústica, piso concreto E= 0.40m CTO. 3000PSI.
+         */
+        Tipo_60,
+        /** Hangar, Estructura metálica y cercha curva, cubierta en teja termo acústica, piso en concreto E=0.40m CTO 3000PSI.
+         */
+        Tipo_40
+      ),
+      /** Sistema de contención y cobertura para el tratamiento de aguas residuales con geomembranas lisas y texturadas de polietileno de alta y baja densidad
+       */
+      Lagunas_de_Oxidacion(
+        /** Lagunas de oxidación que en su construcción requieren excavaciones en la estructura de la laguna, con o sin protección del área de la laguna con geotextil o geomembrana, construcción de diques, protección de los taludes con geotextil o geomembrana y enrocado de taludes.
+         */
+        Tipo_20
+      ),
+      Especiales
+    );
+
+    CCA_BooleanoTipo = (
+      Si,
+      No
+    );
+
+    CCA_Cercha = (
+      !!@ ili2db.dispName = "No Aplica"
+      No_Aplica,
+      !!@ ili2db.dispName = "Liviana"
+      Liviana,
+      !!@ ili2db.dispName = "Mediana"
+      Mediana,
+      !!@ ili2db.dispName = "Pesada"
+      Pesada
+    );
+
+    /** Valores para indicar el tipo de condición de predio
+     */
+    CCA_CondicionPredioTipo = (
+      /** Predio no sometido al régimen de propiedad horizontal.
+       */
+      !!@ ili2db.dispName = "No propiedad horizontal"
+      NPH,
+      /** Predio sometido al régimen de propiedad horizontal mediante escritura pública registrada
+       */
+      !!@ ili2db.dispName = "Propiedad horizontal"
+      PH(
+        /** Predio matriz del régimen de propiedad horizontal sobre el cual se segregan todas las unidades prediales.
+         */
+        !!@ ili2db.dispName = "(Propiedad horizontal) Matriz"
+        Matriz,
+        /** Apartamento, garaje, depósito o cualquier otro tipo de unidad predial dentro del PH que se encuentra debidamente inscrito en el registro de instrumentos públicos
+         */
+        !!@ ili2db.dispName = "(Propiedad horizontal) Unidad Predial"
+        Unidad_Predial
+      ),
+      /** Predio sometido al régimen de propiedad horizontal mediante escritura pública registrada en cuyo reglamento define para cada unidad predial un área privada de terreno.
+       */
+      !!@ ili2db.dispName = "Condominio"
+      Condominio(
+        /** Predio matriz del condominio sobre el cual se segregan todas las unidades prediales.
+         */
+        !!@ ili2db.dispName = "(Condominio) Matriz"
+        Matriz,
+        /** Unidad predial dentro del condominio matriz.
+         */
+        !!@ ili2db.dispName = "(Condominio) Unidad predial"
+        Unidad_Predial
+      ),
+      /** Predios sobre los cuales las áreas de terreno y construcciones son dedicadas a la cremación, inhumación o enterramiento de personas fallecidas.
+       */
+      !!@ ili2db.dispName = "Parque cementerio"
+      Parque_Cementerio(
+        /** Predios sobre los cuales las áreas de terreno y construcciones son dedicadas a la cremación, inhumación o enterramiento de personas fallecidas.
+         */
+        !!@ ili2db.dispName = "(Parque cementerio) Matriz"
+        Matriz,
+        /** Área o sección de terreno con función de tumba, esta debe encontrarse inscrita en el registro de instrumentos públicos.
+         */
+        !!@ ili2db.dispName = "(Parque Cementerio) Unidad predial"
+        Unidad_Predial
+      ),
+      /** Espacio (terreno y construcción) diseñado y destinado para el tránsito de vehículos, personas, entre otros
+       */
+      !!@ ili2db.dispName = "Vía"
+      Via,
+      /** Predios asociados a las formas de tenencia de ocupación o posesión.
+       */
+      !!@ ili2db.dispName = "Informal"
+      Informal,
+      /** Inmuebles que siendo de dominio de la Nación, o una entidad territorial o de particulares, están destinados al uso de los habitantes.
+       */
+      !!@ ili2db.dispName = "Bien de uso público"
+      Bien_Uso_Publico
+    );
+
+    CCA_ConstruccionPlantaTipo = (
+      /** Superficie horizontal de un espacio arquitectónico que divide los espacios en altura.
+       */
+      Piso,
+      /** Piso intermedio entre los pisos principales de una casa o edificio.
+       */
+      Mezanine,
+      /** Piso de un edificio situado por debajo del nivel de la calle.
+       */
+      Sotano,
+      /** Piso que sobresale por lo menos la mitad de su altura, del nivel de un patio de la calle.
+       */
+      Semisotano,
+      /** Construcción que se encuentra por debajo del nivel de la calle y que comprende grandes espacios.
+       */
+      Subterraneo
+    );
+
+    CCA_Cubierta = (
+      !!@ ili2db.dispName = "Material Reciclado"
+      Material_Reciclado,
+      !!@ ili2db.dispName = "Paja Palmicha"
+      Paja_Palmicha,
+      !!@ ili2db.dispName = "Zinc"
+      Zinc,
+      !!@ ili2db.dispName = "Plastica"
+      Plastica,
+      !!@ ili2db.dispName = "Fibrocemento (Eternit)"
+      Fobrocemento,
+      !!@ ili2db.dispName = "Teja de Barro"
+      Teja_Barro,
+      !!@ ili2db.dispName = "Policarbonato"
+      Policarbonato,
+      !!@ ili2db.dispName = "Termoacustica"
+      Termoacustica,
+      !!@ ili2db.dispName = "En Entrepiso"
+      En_Entrepiso,
+      !!@ ili2db.dispName = "No Aplica"
+      No_Aplica
+    );
+
+    CCA_DerechoTipo = (
+      /** El dominio que se llama también propiedad es el derecho real en una cosa corporal, para gozar y disponer de ella arbitrariamente, no siendo contra ley o contra derecho ajeno. (Art. 669 CC):
+       * 
+       * Códigos antiguos:
+       * 101 102 103 104 105 107 108 109 110 111 112 113 114 115 117 118 119 121 150 151 170 171 181 191 920
+       * Códigos nuevos:
+       * 0101 0102 0103 0104 0105 0106 0107 0108 0109 0110 0111 0112 0113 0114 0115 0116 0117 0118 0119 0120 0121 0122 0124 0125 0126 0127 0128 0129 0130 0131 0132 0133 0135 0136 0137 0138 0139 0140 0141 0142 0143 0144 0145 0146 0147 0148 0150 0151 0152 0153 0154 0155 0156 0157 0158 0159 0160 0161 0162 0163
+       * 0164 0165 0166 0167 0168 0169 0171 0172 0173 0175 0177 0178 0179 0180 0181 0182 0183 0184 0185 0186 0187 0188 0189 0190 0191 0192 0193 0194 0195 0197 0198 0199 01001 01002 01003 01004 01005 01006 01007 01008 01009 01010 01012 01013 01014 01015 01016 01017 01018 01019.
+       */
+      !!@ ili2db.dispName = "Dominio"
+      Dominio,
+      /** En el ámbito de la gestión catastral, es el polígono que representa el asentamiento de personas naturales o jurídicas dentro de un terreno baldío, el cual puede contar o no con construcciones y/o edificaciones.
+       */
+      !!@ ili2db.dispName = "Ocupación"
+      Ocupacion,
+      /** En el ámbito de la gestión catastral, es el polígono que representa el asentamiento de personas naturales o jurídicas, con ánimo de señor y dueño sobre un predio privado, el cual puede contar o no con construcciones y/o edificaciones.
+       */
+      !!@ ili2db.dispName = "Posesión"
+      Posesion
+    );
+
+    /** Uso económico de la propiedad inmobiliaria.
+     */
+    CCA_DestinacionEconomicaTipo = (
+      /** Se califica con destino acuícola, aquellos predios donde se realizan cultivos de organismos acuáticos, en ambientes naturales o artificiales.
+       */
+      !!@ ili2db.dispName = "Acuícola"
+      Acuicola,
+      /** Se califica con destino agrícola, aquellos predios con funcionalidad de laboreo agrícola, terrenos que han sido transformados y ocupados para la producción de cultivos cuyo objetivo es satisfacer las necesidades alimentarias, comerciales y agrícolas.
+       * 
+       * En caso de encontrar actividad agrícola y actividad pecuaria en un mismo predio, se califica según la actividad que predomine. Si, ambas actividades tienen el mismo porcentaje de participación en el predio, se debe calificar como agrícola.
+       */
+      !!@ ili2db.dispName = "Agrícola"
+      Agricola,
+      /** Se califica con destino agroindustrial, aquellos predios destinados a la actividad que implica cultivo (producción) y transformación (industrialización y comercialización) de productos agrícola, pecuario y forestal.
+       */
+      !!@ ili2db.dispName = "Agroindustrial"
+      Agroindustrial,
+      /** Predios con destinación agrícola y pecuaria.
+       */
+      !!@ ili2db.dispName = "Agropecuario"
+      Agropecuario,
+      /** Se califica con destino agroforestal, aquellos predios destinados al establecimiento y aprovechamiento combinado de especies forestales con actividades agrícolas o pecuarias con arreglos diferenciados. Incluye la actividad agrosilvícola, silvopastoril y agrosilvopastoril.
+       */
+      !!@ ili2db.dispName = "Agroforestal"
+      Agroforestal,
+      /** Se califica con destino comercial, aquellos predios cuya finalidad es la de realizar la actividad económica de ofrecer, transar o almacenar bienes y/o servicios a través de un mercader o comerciante.
+       */
+      !!@ ili2db.dispName = "Comercial"
+      Comercial,
+      /** Se califica con destino cultural, aquellos predios considerados como bienes culturales de la nación, además los espacios destinados al desarrollo de actividades artísticas.
+       */
+      !!@ ili2db.dispName = "Cultural"
+      Cultural,
+      /** Se califica con destino educativo, aquellos predios donde se desarrollan actividades académicas, tanto de la educación inicial, preescolar, básica, media y superior. Incluye los jardines, escuelas, colegios, institutos técnicos, fundaciones educativas, centros de investigación y universidades.
+       */
+      !!@ ili2db.dispName = "Educativo"
+      Educativo,
+      /** Se califica con destino forestal, aquellos predios con áreas naturales o seminaturales, constituidas principalmente por elementos arbóreos de especies nativas, exóticas e introducidas.  Incluye las plantaciones forestales comerciales y los bosques naturales y seminaturales.
+       */
+      !!@ ili2db.dispName = "Forestal"
+      Forestal,
+      /** Se califica con destino habitacional, aquellos predios de uso residencial cuya finalidad es la vivienda habitual de las personas. Incluye los parqueaderos, garajes y depósitos dentro de propiedad horizontal como también los predios rurales de vivienda campestre.
+       */
+      !!@ ili2db.dispName = "Habitacional"
+      Habitacional,
+      /** Se califica con destino industrial, aquellos predios donde se desarrollan actividades de producción, fabricación, preparación, recuperación, reproducción, ensamblaje, construcción, transformación, tratamiento y manipulación de materias primas para producir bienes o productos materiales y que no estén clasificados dentro de los predios mineros.
+       */
+      !!@ ili2db.dispName = "Industrial"
+      Industrial,
+      /** Se califica con destino infraestructura asociada a la producción agropecuaria, aquellos predios sobre los cuales se encuentra la infraestructura requerida dentro de la actividad agropecuaria y que son de interés para el sector agropecuario, como: bancos de maquinaria, plantas de almacenamiento, centros de acopio, centros de transformación agrícola, mataderos, etc.
+       */
+      !!@ ili2db.dispName = "Infraestructura asociada a producción agropecuaria"
+      Infraestructura_Asociada_Produccion_Agropecuaria,
+      /** Se califica con destino infraestructura hidráulica, aquellos predios sobre los cuales se encuentra establecida infraestructura para controlar, almacenar y conducir un flujo continuo de agua. Incluye los embalses, represas, acueductos, centrales de tratamiento y distribución, alcantarillados, estaciones depuradoras de aguas residenciales y distrito de adecuación de tierras.
+       */
+      !!@ ili2db.dispName = "Infraestructura hidráulica"
+      Infraestructura_Hidraulica,
+      /** Se califica con destino infraestructura de saneamiento básico, aquellos predios sobre los cuales se encuentra establecida la infraestructura para el saneamiento básico, con excepción del alcantarillado. Incluye los centros de acopio de basura y material reciclable, rellenos sanitarios e incineradoras.
+       */
+      !!@ ili2db.dispName = "Infraestructura de saneamiento básico"
+      Infraestructura_Saneamiento_Basico,
+      /** Se califica con destino infraestructura de seguridad, aquellos predios sobre los cuales se encuentra establecida infraestructura destina a salvaguardar el orden público. Incluye las estaciones de policía, batallones, cárceles, etc.
+       */
+      !!@ ili2db.dispName = "Infraestructura seguridad"
+      Infraestructura_Seguridad,
+      /** Se califica con destino infraestructura de transporte, aquellos predios en los cuales se encuentra establecida infraestructura para el desarrollo de actividad de transporte, muelles para embarque, desembarque de carga y/o pasajeros, pistas de aterrizaje, torres de control, centros de almacenamiento y venta de combustible, etc. Se exceptúan de estas, aquellas plataformas flotantes y aquellas que se encuentren fuera de la plataforma continental.
+       */
+      !!@ ili2db.dispName = "Infraestructura transporte"
+      Infraestructura_Transporte,
+      /** Se califica con destino institucional, aquellos predios destinados a la administración y prestación de servicios del Estado tanto de orden nacional como territorial.
+       */
+      !!@ ili2db.dispName = "Institucional"
+      Institucional,
+      /** Se califica con destino minería e hidrocarburos, aquellos predios donde se hace aprovechamiento directo de los recursos minerales o transformación primaria de los mismos.
+       */
+      !!@ ili2db.dispName = "Minería e hidrocarburos"
+      Mineria_Hidrocarburos,
+      /** Se califica con este destino, aquellos predios urbanos no construidos, ubicados en terrenos de grandes áreas que no han sido desarrollados y sin restricción legal para adelantar algún tipo de desarrollo urbanístico.
+       */
+      !!@ ili2db.dispName = "Lote urbanizable no urbanizado"
+      Lote_Urbanizable_No_Urbanizado,
+      /** Se califica con este destino, aquellos predios urbanos no construidos, ubicados en zonas urbanizadas, es decir, con infraestructura de servicios públicos e infraestructura vial.
+       */
+      !!@ ili2db.dispName = "Lote urbanizado no construido"
+      Lote_Urbanizado_No_Construido,
+      /** Se califica con este destino, aquellos predios urbanos o rurales clasificados por el instrumento de planeación como suelo de protección, también se incluyen los predios con afectación, por ejemplo los utilizados como servidumbres para los servicios públicos.
+       */
+      !!@ ili2db.dispName = "Lote no urbanizable"
+      Lote_No_Urbanizable,
+      /** Se califica con destino pecuario, aquellos predios destinados a la cría, beneficio y aprovechamiento de especies de animales no domésticos, para el consumo humano (productos cárnicos y lácteos), uso artesanal (lana, cuero, plumas, etc.) y conservación de fauna (zoocría).
+       */
+      !!@ ili2db.dispName = "Pecuario"
+      Pecuario,
+      /** Se califica con destino recreacional, aquellos predios que corresponden a equipamientos deportivos y recreativos, parques de propiedad privada o pública, clubes, generando bienestar físico y social.
+       */
+      !!@ ili2db.dispName = "Recreacional"
+      Recreacional,
+      /** Se califica con destino religioso, aquellos predios cuya finalidad es el culto religioso público, incluye las parroquias, basílicas, catedrales, santuarios, capillas, colegiatas, monasterios, conventos y seminarios.
+       */
+      !!@ ili2db.dispName = "Religioso"
+      Religioso,
+      /** Se califica con destino salubridad, aquellos predios destinados al cuidado de la salud de los ciudadanos, incluye los hospitales, centros de salud, clínicas, laboratorios y consultorios que prestan el servicio de salud tanto carácter público o privado
+       */
+      !!@ ili2db.dispName = "Salubridad"
+      Salubridad,
+      /** Se califica con destino infraestructura de servicios funerarios, aquellos predios que prestan servicios de velatorio, cremación y entierro de personas fallecidas, incluye los cementerios, funerarias, morgue, anfiteatros, crematorios y demás relacionados.
+       */
+      !!@ ili2db.dispName = "Servicios funerarios"
+      Servicios_Funerarios,
+      /** Se califica con destino uso público, aquellos predios urbanos o rurales, que conforman el espacio público, como las zonas verdes, alamedas, plazas (no se incluyen las plazas de mercado), plazoletas parques, cuerpos de agua, áreas de control y protección ambiental, túneles, vías, ciclorutas, glorietas, etc.
+       */
+      !!@ ili2db.dispName = "Uso público"
+      Uso_Publico
+    );
+
+    CCA_EstadoCivilTipo = (
+      /** Una persona no casada que indica contar con una pareja con quien ha convivido menos de dos años.
+       */
+      !!@ ili2db.dispName = "No casado vive en pareja hace menos de 2 años."
+      No_Casado_Vive_En_Pareja_Menos_2_Anios,
+      /** Una persona no casada que indica contar con una pareja con quien ha convivido dos años o más.
+       */
+      !!@ ili2db.dispName = "No casado vive en pareja hace  2 años o más."
+      No_Casado_Vive_En_Pareja_2_Anios_O_Mas,
+      /** Una persona que acaba de contraer matrimonio adquiere el estado civil de casado.
+       */
+      !!@ ili2db.dispName = "Casado"
+      Casado,
+      /** Una persona que ha finalizado oficialmente con su matrimonio adquiere la calidad de divorciado. La separación matrimonial es una situación jurídica intermedia entre el matrimonio y el divorcio.
+       */
+      !!@ ili2db.dispName = "Separado o divorsiado"
+      Separado_Divorciado,
+      /** Viudez es el estado de haber perdido al cónyuge por fallecimiento.
+       */
+      !!@ ili2db.dispName = "Viudo"
+      Viudo,
+      /** Una persona que no ha contraido matrimonio.
+       */
+      !!@ ili2db.dispName = "Soltero"
+      Soltero
+    );
+
+    CCA_EstadoConservacionTipo = (
+      /** Se agrupan en este concepto, aquellas estructuras con el mayor grado de deterioro que se puedan encontrar, en condiciones precarias lo cual las hace prácticamente inhabitables.  Generalmente se presenta en construcciones antiguas o con material de muy mala calidad.
+       */
+      !!@ ili2db.dispName = "Malo"
+      Malo,
+      /** En esta categoría, se clasifican aquellas estructuras que tienen algunos daños menores, (agrietamiento de paredes, hundimiento de pisos, etc.) pero que todavía se encuentran en condiciones aceptables, sin peligros eminentes o exigencias imperativa de reparaciones inmediatas.  Se presenta con frecuencia en construcciones más o menos antiguas o materiales de regular calidad.
+       */
+      !!@ ili2db.dispName = "Regular"
+      Regular,
+      /** Se calificarán como tales, aquellas estructuras, no necesariamente nuevas, que se hallan cumpliendo a cabalidad con la función para las que fueron construidas, no demuestran deterioro, al menos visibles, y por efectos de uso se encuentran solamente un tanto deslucidas y sus materiales son de buena calidad.
+       */
+      !!@ ili2db.dispName = "Bueno"
+      Bueno,
+      /** Se define en este grado, el estado de conservación de una estructura nueva en la que no se vislumbra deterioro, no se observa daño y en la cual los materiales y los acabados son de óptima calidad.
+       */
+      !!@ ili2db.dispName = "Excelente"
+      Excelente
+    );
+
+    CCA_EstratoTipo = (
+      !!@ ili2db.dispName = "0"
+      Cero,
+      !!@ ili2db.dispName = "1"
+      Uno,
+      !!@ ili2db.dispName = "2"
+      Dos,
+      !!@ ili2db.dispName = "3"
+      Tres,
+      !!@ ili2db.dispName = "4"
+      Cuatro,
+      !!@ ili2db.dispName = "5"
+      Cinco,
+      !!@ ili2db.dispName = "6"
+      Seis
+    );
+
+    CCA_EstructuraArmazon = (
+      !!@ ili2db.dispName = "Sin Estructura"
+      Sin_Estructura,
+      !!@ ili2db.dispName = "Material Reciclado"
+      Material_Reciclado,
+      !!@ ili2db.dispName = "Madera Burda Guadua"
+      Madera_Burda_Guadua,
+      !!@ ili2db.dispName = "Adobe Tapia"
+      Adobe_Tapia,
+      !!@ ili2db.dispName = "Piedra"
+      Piedra,
+      !!@ ili2db.dispName = "Ladrillo o Bloque"
+      Ladrillo_Bloque,
+      !!@ ili2db.dispName = "Concreto Hormigón"
+      Concreto_Hormigon,
+      !!@ ili2db.dispName = "Métalica"
+      Metalica,
+      !!@ ili2db.dispName = "Madera Fina"
+      Madera_Fina
+    );
+
+    CCA_FuenteAdministrativaTipo = (
+      !!@ ili2db.dispName = "Documento privado"
+      Documento_Privado,
+      /** Documento público es el otorgado por el funcionario público en ejercicio de sus funciones o con su intervención. Así mismo, es público el documento otorgado por un particular en ejercicio de funciones públicas o con su intervención. Cuando consiste en un escrito autorizado o suscrito por el respectivo funcionario, es instrumento público; cuando es autorizado por un notario o quien haga sus veces y ha sido incorporado en el respectivo protocolo, se denomina escritura pública.
+       */
+      !!@ ili2db.dispName = "Documento público"
+      Documento_Publico(
+        /** Una escritura pública es un documento público en el que se realiza ante un notario público un determinado hecho o un derecho autorizado por dicho fedatario público, que firma con el otorgante u otorgantes,mostrando sobre la capacidad jurídica del contenido y de la fecha en que se realizó
+         */
+        !!@ ili2db.dispName = "(Documento público) Escritura pública"
+        Escritura_Publica,
+        /** La sentencia es la resolución judicial definitiva dictada por un juez o tribunal que pone fin a la litis o caso sometido a su conocimiento y cierra definitivamente su actuación en el mismo
+         */
+        !!@ ili2db.dispName = "(Documento público) Sentencia judicial"
+        Sentencia_Judicial,
+        /** Un acto administrativo es toda manifestación o declaración emanada de la administración pública en el ejercicio de potestades administrativas, mediante el que impone su voluntad sobre los derechos, libertades o intereses de otros sujetos públicos o privados y que queda bajo el del comienzo.
+         */
+        !!@ ili2db.dispName = "(Documento público) Acto administrativo"
+        Acto_Administrativo
+      ),
+      /** Cuando no se haya documento soporte pero puede ser una declaración verbal.
+       */
+      !!@ ili2db.dispName = "(Sin documento)"
+      Sin_Documento
+    );
+
+    CCA_GrupoEtnicoTipo = (
+      /** Son el grupo humano que vive de acuerdo con las formas de relación con el medio natural en el que se asentaron los diferentes grupos aborígenes desde antes de la conquista y la han conservado y dinamizado a lo largo de la historia.
+       */
+      !!@ ili2db.dispName = "Indígena"
+      Indigena,
+      /** El pueblo Rrom o gitano se consolida y fortalece como grupo étnico que hacer parte de la diversidad étnica y cultural de la nación colombiana. Su origen se remonta a más de 1000 años, proviene del norte de la India y conserva un alto bagaje cultural que lo diferencia de otros pueblos y de la sociedad mayoritaria. En este sentido, cuenta con unos elementos identitarios que los diferencian notablemente de los demás grupos étnicos de la sociedad. Sé es Rrom o gitano por derecho de nacimiento y se lleva la sangre gitana.
+       */
+      !!@ ili2db.dispName = "Rrom"
+      Rrom,
+      /** Es la población nativa de las Islas de San Andrés, Providencia Y Santa Catalina descendientes de la unión entre europeos (principalmente ingleses, españoles y holandeses) y esclavos africanos. Se distinguen por su cultura, lengua (creole), creencias religiosas (iglesia bautista) y pasado histórico similar a los pueblos antillanos como Jamaica y Haití.
+       */
+      !!@ ili2db.dispName = "Raizal"
+      Raizal,
+      /** La comunidad palenquera está conformada por los descendientes de los esclavizados que mediante actos de resistencia y de libertad, se refugiaron en los territorios de la Costa Norte de Colombia desde el Siglo XV denominados palenques. Existen 4 Palenques reconocidos: San Basilio de Palenque (Mahates_Bolívar), San José de Uré (Córdoba), Jacobo Pérez escobar (Magdalena) y La Libertad (Sucre).
+       */
+      !!@ ili2db.dispName = "Palenquero"
+      Palenquero,
+      /** Es el conjunto de familias de ascendencia afrocolombiana que poseen una cultura propia, comparten una historia y tienen sus propias tradiciones y costumbres dentro de la relación campo_poblado, además revelan y conservan conciencia de identidad que las distinguen de otros grupos étnicos. Se suele denominar a este grupo humano como negros, morenos, mulatos y afrodescendientes.
+       */
+      !!@ ili2db.dispName = "Negro o afrocolombiano"
+      Negro_Afrocolombiano,
+      /** No pertenece a ningún grupo étnico.
+       */
+      !!@ ili2db.dispName = "Ninguno"
+      Ninguno
+    );
+
+    CCA_InteresadoDocumentoTipo = (
+      /** Es un documento emitido por la Registraduría Nacional del Estado Civil para permitir la identificación personal de los ciudadanos.
+       */
+      Cedula_Ciudadania,
+      /** Es el documento que cumple los fines de identificación de los extranjeros en el territorio nacional y su utilización deberá estar acorde con la visa otorgada al extranjero.
+       */
+      Cedula_Extranjeria,
+      /** El Número de Identificación Tributaria (NIT) es un código privado, secreto e intransferible que solamente debe conocer el contribuyente.
+       */
+      NIT,
+      /** Es el documento oficial que hace las veces de identificación para los menores de edad entre los 7 y los 18 años.
+       */
+      Tarjeta_Identidad,
+      /** Registro donde se hacen constar por autoridades competentes los nacimientos, matrimonios, defunciones y demás hechos relativos al estado civil de las personas. En el modelo se tendrá en cuenta el número de registro como identificación personal de las personas de 0 a 7 años.
+       */
+      Registro_Civil,
+      /** Es un consecutivo asignado automáticamente en registro en lugar del número de la identificación de la persona que hace el trámite, se usa especialmente en trámites de construcción cuando el proyecto está a nombre de una Fiducia el cual tiene el mismo número del banco.
+       */
+      Secuencial,
+      /** Documento que acredita la identidad y la nacionalidad de una persona y que es necesario para viajar a determinados países.
+       */
+      Pasaporte
+    );
+
+    CCA_InteresadoTipo = (
+      /** Se refiere a la persona humana.
+       */
+      !!@ ili2db.dispName = "Persona natural"
+      Persona_Natural,
+      /** Se llama persona jurídica, una persona ficticia, capaz de ejercer derechos y contraer obligaciones civiles, y de ser representada judicial y extrajudicialmente. Las personas jurídicas son de dos especies: corporaciones y fundaciones de beneficencia pública.
+       */
+      !!@ ili2db.dispName = "Persona jurídica"
+      Persona_Juridica
+    );
+
+    CCA_MetodoIntervencionTipo = (
+      /** Aquellos que requieren una visita a campo con el fin de recolectar la realidad de los bienes inmuebles.
+       */
+      !!@ ili2db.dispName = "Directo"
+      Directo,
+      /** Son los métodos de identificación física, jurídica y económica de los inmuebles a través del uso de sensores remotos; integración de registros administrativos; modelos estadísticos y econométricos; análisis de Big Data, y fuentes secundarias, como observatorios inmobiliarios, y su posterior incorporación en la base catastral.
+       */
+      !!@ ili2db.dispName = "Indirecto"
+      Indirecto,
+      /** Son los derivados de la participación de la comunidad en el suministro de información que sirva como insumo para el desarrollo de los procesos catastrales. Los gestores catastrales propenderán por la adopción de nuevas tecnologías y procesos comunitarios que faciliten la participación de los ciudadanos.
+       */
+      !!@ ili2db.dispName = "Colaborativo/Declarativo"
+      Colaborativo_Declarativo,
+      /** Predios levantados con la combinación de métodos directo y/o método indirecto y/o colaborativo/Declarativo
+       */
+      !!@ ili2db.dispName = "Mixto"
+      Mixto
+    );
+
+    CCA_NumeroPisos = (
+      !!@ ili2db.dispName = "01"
+      Uno,
+      !!@ ili2db.dispName = "02"
+      Dos,
+      !!@ ili2db.dispName = "03"
+      Tres,
+      !!@ ili2db.dispName = "04"
+      Cuatro,
+      !!@ ili2db.dispName = "05"
+      Cinco,
+      !!@ ili2db.dispName = "06"
+      Seis,
+      !!@ ili2db.dispName = "07"
+      Siete,
+      !!@ ili2db.dispName = "08"
+      Ocho,
+      !!@ ili2db.dispName = "09"
+      Nueve,
+      !!@ ili2db.dispName = "10"
+      Diez,
+      !!@ ili2db.dispName = "11"
+      Once,
+      !!@ ili2db.dispName = "12"
+      Doce,
+      !!@ ili2db.dispName = "13"
+      Trece,
+      !!@ ili2db.dispName = "14"
+      Catorce,
+      !!@ ili2db.dispName = "15"
+      Quince,
+      !!@ ili2db.dispName = "16"
+      Dieciseis,
+      !!@ ili2db.dispName = "17"
+      Diecisiete,
+      !!@ ili2db.dispName = "18"
+      Dieciocho,
+      !!@ ili2db.dispName = "19"
+      Diecinueve,
+      !!@ ili2db.dispName = "20"
+      Veinte,
+      !!@ ili2db.dispName = "No Aplica"
+      No_Aplica
+    );
+
+    CCA_PretensionColectivaTipo = (
+      Colectiva,
+      Individual,
+      Ninguna
+    );
+
+    CCA_ResultadoVisitaTipo = (
+      /** Tuvo acceso total al predio
+       */
+      !!@ ili2db.dispName = "Exitoso"
+      Exitoso,
+      /** Tuvo acceso parcial al predio.
+       */
+      !!@ ili2db.dispName = "Incompleto"
+      Incompleto,
+      /** Sin atención por parte de personas. Predio Desocupado.
+       */
+      !!@ ili2db.dispName = "No hay nadie"
+      No_Hay_Nadie,
+      /** No permitieron acceso al predio.
+       */
+      !!@ ili2db.dispName = "No permitieron acceso"
+      No_Permitieron_Acceso,
+      /** No hay adulto en el momento de la visita.
+       */
+      !!@ ili2db.dispName = "Menor de edad"
+      Menor_Edad,
+      /** Por temas de seguridad asociados a orden público no es posible el acceso.
+       */
+      !!@ ili2db.dispName = "Situación de orden público"
+      Situacion_Orden_Publico,
+      /** Por limitaciones relacionadas con la topografía o accidentes geográficos no hubo acceso al predio.
+       */
+      !!@ ili2db.dispName = "Zona de difícil acceso"
+      Zona_Dificil_Acceso,
+      /** Predio en el cual no se realizó visita.
+       */
+      !!@ ili2db.dispName = "Sin Visita"
+      Sin_Visita
+    );
+
+    CCA_SexoTipo = (
+      /** Identidad que representa la construcción sociocultural del hombre y es reconocida en el derecho mediante el documento de identificación.
+       */
+      !!@ ili2db.dispName = "Masculino"
+      Masculino,
+      /** Identidad que representa la construcción sociocultural de la mujer y es reconocida en el derecho mediante el documento de identificación.
+       */
+      !!@ ili2db.dispName = "Femenino"
+      Femenino,
+      /** Corresponde a los datos sobre los cuales no se logró evidenciar el sexo, femenino o masculino, por no existir el soporte respectivo.
+       */
+      !!@ ili2db.dispName = "Sin determinar"
+      Sin_Determinar
+    );
+
+    CCA_UnidadConstruccionTipo = (
+      /** Tipo de unidad de construcción en uso para vivienda.
+       */
+      !!@ ili2db.dispName = "Residencial"
+      Residencial,
+      /** Tipo de unidad de construcción en uso de actividades comerciales.
+       */
+      !!@ ili2db.dispName = "Comercial"
+      Comercial,
+      /** Tipo de unidad de construcción en uso de actividades industriales.
+       */
+      !!@ ili2db.dispName = "Industrial"
+      Industrial,
+      /** Tipo de unidad de construcción en uso de actividades institucionales.
+       */
+      !!@ ili2db.dispName = "Institucional"
+      Institucional,
+      /** Tipo de unidad de construcción anexa, por ejemplo, piscinas, cobertizos, canchas de tenis, toboganes.
+       */
+      !!@ ili2db.dispName = "Anexo"
+      Anexo
+    );
+
+    CCA_UsoUConsTipo = (
+      Residencial(
+        /** Es una vivienda que comprende una o más habitaciones, en un edificio de varios pisos 4 o más pisos sometido en régimen de propiedad horizontal.
+         */
+        !!@ ili2db.dispName = "(Residencial) Apartamentos 4 y más pisos en PH"
+        Apartamentos_4_y_mas_pisos_en_PH,
+        /** Es una vivienda que comprende una o más habitaciones, en un edificio de varios pisos 4 o más pisos
+         */
+        !!@ ili2db.dispName = "(Residencial) Apartamentos más de 4 pisos"
+        Apartamentos_Mas_De_4_Pisos,
+        /** Dormitorios de las fuerzas armadas y militares
+         */
+        !!@ ili2db.dispName = "(Residencial) Barracas"
+        Barracas,
+        /** Típica casa con mampostería de piedra, pizarra y madera. Ha sido rehabilitada respetando escrupulosamente sus características exteriores y decorada con un interior tradicional
+         */
+        !!@ ili2db.dispName = "(Residencial) Casa elbas"
+        Casa_Elbas,
+        /** Edificación destinada al almacenamiento o resguardo de enceres, generalmente ubicados en los sótanos y semisótanos de los edificios, junto a los parqueaderos. Las áreas de estos depósitos generalmente no supera los 25 metros cuadrados.
+         */
+        !!@ ili2db.dispName = "(Residencial) Depósitos o lockers"
+        Depositos_Lockers,
+        /** Es el lugar cubierto, destinado al estacionamiento privado de vehículos.
+         */
+        !!@ ili2db.dispName = "(Residencial) Garajes cubiertos"
+        Garajes_Cubiertos,
+        /** Es el lugar cubierto, destinado al estacionamiento privado o comunal en viviendas sometidas a régimen de propiedad  horizontal.
+         */
+        !!@ ili2db.dispName = "(Residencial) Garajes en PH"
+        Garajes_En_PH,
+        /** Los salones comunales son dependencias que se construyen dentro de los edificios y conjuntos que sobrepasan un área determinada de construcción, y se clasifican de acuerdo a las normas urbanísticas como equipamiento comunal privado.
+         */
+        !!@ ili2db.dispName = "(Residencial) Salón comunal"
+        Salon_Comunal,
+        /** Bien inmueble cubierto o descubierto ubicado en el último piso de algunos edificios utilizado para extender y secar la ropa y que está sometido a régimen de propiedad horizontal.
+         */
+        !!@ ili2db.dispName = "(Residencial) Secadero de ropa"
+        Secadero_Ropa,
+        /** Son las viviendas construidas durante el tiempo de la colonia española, se caracterizan por tener varias habitaciones, con ventanales que dan a uno o dos patios generalmente ubicados en el centro de la vivienda. Los principales materiales de la época era la tapia, bahareque, ladrillo, paja y teja.
+         */
+        !!@ ili2db.dispName = "(Residencial) Vivienda colonial"
+        Vivienda_Colonial,
+        /** Es una vivienda que comprende una o más habitaciones en un edificio de 4 o más pisos sometidos a régimen de propiedad horizontal.  Se caracterizan por conservar gran parte o el total de la construcción original realizada durante el tiempo de la colonia española. Los principales materiales de la época era la tapia, bahareque, ladrillo, paja y teja.
+         */
+        !!@ ili2db.dispName = "(Residencial) Vivienda colonial en PH"
+        Vivienda_Colonial_en_PH,
+        /** Es una casa de tres niveles cuya función arquitectónica y ambiental principal, es dar albergue en forma adecuada a una familia.
+         */
+        !!@ ili2db.dispName = "(Residencial) Vivienda hasta 3 pisos"
+        Vivienda_Hasta_3_Pisos,
+        /** Corresponde a edificaciones residenciales desarrolladas sobre un lote de terreno que comprende más de tres unidades prediales independientes, generalmente en edificios de varios pisos. Este tipo de vivienda prevé? áreas de servicios comunales cuya propiedad y utilización privada se definen en reglamentos de propiedad horizontal
+         */
+        !!@ ili2db.dispName = "(Residencial) Vivienda hasta 3 pisos en PH"
+        Vivienda_Hasta_3_Pisos_En_PH,
+        /** Es una vivienda acondicionada para la realización de actividades recreativas libres y el descanso.
+         */
+        !!@ ili2db.dispName = "(Residencial) Vivienda recreacional"
+        Vivienda_Recreacional,
+        /** Es una casa cuya función arquitectónica y ambiental principal, es brindar descanso y recreación. Este tipo de vivienda  prevé? áreas de servicios comunales cuya propiedad y utilización privada se definen en reglamentos de propiedad horizontal.
+         */
+        !!@ ili2db.dispName = "(Residencial) Vivienda recreacional en PH"
+        Vivienda_Recreacional_En_PH
+      ),
+      Comercial(
+        /** Es el espacio construido para la ejecución la recepción, almacenamiento y movimientos de materiales, materias primas y productos semielaborados, hasta el punto de consumo por un cliente externo o interno
+         */
+        !!@ ili2db.dispName = "(Comercial) Bodegas comerciales Grandes almacenes"
+        Bodegas_Comerciales_Grandes_Almacenes,
+        /** Es el espacio construido para la ejecución la recepción, almacenamiento y movimientos de materiales, materias primas y productos semielaborados, hasta el punto de consumo por un cliente externo o interno sometido a régimen de propiedad horizontal.
+         */
+        !!@ ili2db.dispName = "(Comercial) Bodegas comerciales en PH"
+        Bodegas_Comerciales_en_PH,
+        /** es una construcción que consta de uno o varios edificios, por lo general de gran tamaño, que albergan servicios, locales y oficinas comerciales aglutinados en un espacio determinado concentrando mayor cantidad de clientes potenciales dentro del recinto.
+         */
+        !!@ ili2db.dispName = "(Comercial) Centros comerciales"
+        Centros_Comerciales,
+        /** Es una construcción que consta de uno o varios edificios, por lo general de gran tamaño, que albergan servicios, locales y oficinas comerciales aglutinados en un espacio determinado concentrando mayor cantidad de clientes potenciales dentro del recinto, sometido a régimen de propiedad horizontal.
+         */
+        !!@ ili2db.dispName = "(Comercial) Centros comerciales en PH"
+        Centros_Comerciales_en_PH,
+        /** Es la edificación o  Establecimiento que brinda servicios recreativos y tiene capacidad para ciertos juegos de azar
+         */
+        !!@ ili2db.dispName = "(Comercial) Clubes Casinos"
+        Clubes_Casinos,
+        /** Se denomina a la construcción en la cual se lleva a acabo una actividad socioeconómica que consiste en el intercambio de algunos materiales en el mercado de compra y venta de bienes
+         */
+        !!@ ili2db.dispName = "(Comercial) Comercio"
+        Comercio,
+        /** Se denomina a la construcción con características arquitectónicas coloniales,  en el cual se lleva a acabo una actividad socioeconómica que consiste en el intercambio de algunos materiales en el mercado de compra y venta de bienes
+         */
+        !!@ ili2db.dispName = "(Comercial) Comercio colonial"
+        Comercio_Colonial,
+        /** Se denomina a la construcción en la cual se lleva a acabo una actividad socioeconómica que consiste en el intercambio de algunos materiales en el mercado de compra y venta de bienes sometida a régimen de propiedad horizontal
+         */
+        !!@ ili2db.dispName = "(Comercial) Comercio en PH"
+        Comercio_en_PH,
+        /** Establecimiento que ocupa un edificio total o parcialmente con uso exclusivo de sus servicios (entradas, ascensores, escaleras, etc.) y que ofrece alojamiento y posee características arquitectónicas coloniales.
+         */
+        !!@ ili2db.dispName = "(Comercial) Hotel colonial"
+        Hotel_Colonial,
+        /** Establecimiento que ocupa un edificio total o parcialmente con uso exclusivo de sus servicios (entradas, ascensores, escaleras, etc.) y que ofrece alojamiento
+         */
+        !!@ ili2db.dispName = "(Comercial) Hoteles"
+        Hoteles,
+        /** Establecimiento que ocupa un edificio total o parcialmente que ofrece alojamiento
+         */
+        !!@ ili2db.dispName = "(Comercial) Hoteles en PH"
+        Hoteles_en_PH,
+        /** Espacio construido en el que se  realiza un trabajo profesional de gestión, administración o atención médica
+         */
+        !!@ ili2db.dispName = "(Comercial) Oficinas Consultorios"
+        Oficinas_Consultorios,
+        /** Espacio construido con características arquitectónicas coloniales en el que se  realiza un trabajo profesional de gestión, administración o atención médica
+         */
+        !!@ ili2db.dispName = "(Comercial) Oficinas Consultorios coloniales"
+        Oficinas_Consultorios_Coloniales,
+        /** espacio construido en el que se  realiza un trabajo profesional de gestión, administración o atención médica, sometida a régimen de propiedad horizontal
+         */
+        !!@ ili2db.dispName = "(Comercial) Oficinas consultorios en PH"
+        Oficinas_Consultorios_en_PH,
+        /** Construcciones dedicadas al esparcimiento y a la diversión, generalmente son predios con grandes espacios, ejemplo parque el salitre.
+         */
+        !!@ ili2db.dispName = "(Comercial) Parque de diversiones"
+        Parque_Diversiones,
+        /** Es el espacio que con ánimo de lucro se destina a guardar o arrendar espacios para depositar vehículos dentro de una edificación construida para tal fin, o dentro de un predio habilitado con el mismo objeto.
+         */
+        !!@ ili2db.dispName = "(Comercial) Parqueaderos"
+        Parqueaderos,
+        /** Es el espacio o se destina a guardar o arrendar espacios para depositar vehículos dentro de una edificación construida privado o comunal bajo régimen de propiedad horizontal
+         */
+        !!@ ili2db.dispName = "(Comercial) Parqueaderos en PH"
+        Parqueaderos_en_PH,
+        /** Vivienda que proporciona alojamiento y hospedaje temporal
+         */
+        !!@ ili2db.dispName = "(Comercial) Pensiones y residencias"
+        Pensiones_y_Residencias,
+        /** Edificaciones tipo bodega destinadas a la prestacion de un servicio público, como es la oferta de productos básicos, principalmente de origen agropecuario y consumo doméstico
+         */
+        !!@ ili2db.dispName = "(Comercial) Plaza de mercado"
+        Plaza_Mercado,
+        /** Establecimiento con características arquitectónicas coloniales en el que se preparan y sirven comidas.
+         */
+        !!@ ili2db.dispName = "(Comercial) Restaurante colonial"
+        Restaurante_Colonial,
+        /** Establecimiento en el que se preparan y sirven comidas.
+         */
+        !!@ ili2db.dispName = "(Comercial) Restaurantes"
+        Restaurantes,
+        /** Establecimiento en el que se preparan y sirven comidas sometido a régimen de propiedad horizontal.
+         */
+        !!@ ili2db.dispName = "(Comercial) Restaurantes en PH"
+        Restaurantes_en_PH,
+        /** Edificación destinada a la proyección de películas cinematográfica o la presentación de obras artísticas actorales o musicales.
+         */
+        !!@ ili2db.dispName = "(Comercial) Teatro Cinemas"
+        Teatro_Cinemas,
+        /** Establecimiento destinado a la proyección de películas cinematográficas sometida o la presentación de obras artísticas actores o musicales en un predio sometido en régimen de propiedad horizontal
+         */
+        !!@ ili2db.dispName = "(Comercial) Teatro Cinemas en PH"
+        Teatro_Cinemas_en_PH
+      ),
+      Industrial(
+        /** Infraestructura de bombeo.
+         */
+        !!@ ili2db.dispName = "(Industrial) Bodega casa bomba"
+        Bodega_Casa_Bomba,
+        /** Infraestructura de bombeo de bodegas sometidas a régimen de propiedad horizontal.
+         */
+        !!@ ili2db.dispName = "(Industrial) Bodegas casa bomba en PH"
+        Bodegas_Casa_Bomba_en_PH,
+        /** Conjunto de instalaciones dedicadas a esta actividad de transformar las materias primas en productos elaborados
+         */
+        !!@ ili2db.dispName = "(Industrial) Industrias"
+        Industrias,
+        /** Conjunto de instalaciones sometidas a régimen de propiedad horizontal dedicadas a la actividad de transformar las materias primas en productos elaborados
+         */
+        !!@ ili2db.dispName = "(Industrial) Industrias en PH"
+        Industrias_en_PH,
+        /** Es el espacio construido en el que se realiza un trabajo, manual en su origen, bien de tipo artesanal o fabril.
+         */
+        !!@ ili2db.dispName = "(Industrial) Talleres"
+        Talleres
+      ),
+      Institucional(
+        /** Es un salón de un edificio que se destina a actividades de enseñanza, y es la unidad básica de todo recinto destinado a la educación.
+         */
+        !!@ ili2db.dispName = "(Institucional) Aula de clases"
+        Aulas_de_Clases,
+        /** Edificación donde podemos encontrar libros o cualquier otro soporte de un texto, como publicaciones, revistas, documentos, catálogo entre otros.
+         */
+        !!@ ili2db.dispName = "(Institucional) Biblioteca"
+        Biblioteca,
+        /** Son instalaciones en las que se encarcela a los prisioneros, se encuentran bajo la autoridad del estado.
+         */
+        !!@ ili2db.dispName = "(Institucional) Cárceles"
+        Carceles,
+        /** Lugar sin altar (diferente a iglesias y capillas) que congrega a un determinado número de personas para actividades de culto asociadas con manifestaciones religiosas.
+         */
+        !!@ ili2db.dispName = "(Institucional) Casas de culto"
+        Casas_de_Culto,
+        /** Establecimiento construido y destinado a proporcionar todo tipo de asistencia médica, incluidas operaciones quirúrgicas y estancia durante la recuperación o tratamiento, y en el que también se practican la investigación y la enseñanza médica
+         */
+        !!@ ili2db.dispName = "(Institucional) Clínicas, hospitales, centros médicos"
+        Clinicas_Hospitales_Centros_Medicos,
+        /** Institución edificada destinada a la enseñanza primaria, secundaria y universitaria
+         */
+        !!@ ili2db.dispName = "(Institucional) Colegios y universidades"
+        Colegio_y_Universidades,
+        /** Teatro o edificio destinado a espectáculos con capacidad para un gran número de personas.
+         */
+        !!@ ili2db.dispName = "(Institucional) Coliseos"
+        Coliseos,
+        /** Institución edificada construcción con características arquitectónicas coloniales destinada a la enseñanza primaria
+         */
+        !!@ ili2db.dispName = "(Institucional) Entidad educativa colonial colegio colonial"
+        Entidad_Educativa_Colonial_Colegio_Colonial,
+        /** Un estadio es una construcción cerrada con graderías para los espectadores, destinado a competiciones deportivas. Puede ser al aire libre o cubierto.
+         */
+        !!@ ili2db.dispName = "(Institucional) Estadios"
+        Estadios,
+        /** Lugar construido  fuerte, cercado de murallas, baluartes, fosos y otras fortificaciones.
+         */
+        !!@ ili2db.dispName = "(Institucional) Fuertes y Castillos"
+        Fuertes_y_Castillos,
+        /** Edificación en la que se reúnen y consagran a los fieles que le rinden culto a un ser superior
+         */
+        !!@ ili2db.dispName = "(Institucional) Iglesia"
+        Iglesia,
+        /** Edificación en la que se reúnen y consagran a los fieles que le rinden culto a un ser superior sometido a régimen de propiedad horizontal
+         */
+        !!@ ili2db.dispName = "(Institucional) Iglesia en PH"
+        Iglesia_en_PH,
+        /** Construcciones adaptadas o utilizadas por los organismos de seguridad de una nación para acuartelar a las tropas y sus equipos. Estas son organizadas de una forma tal que les facilite cumplir con la rutina diaria de los cuerpos militares, desde dormitorios, patios de ejercicios, estacionamientos para los vehículos, parques, comedores, oficinas y son fortificadas a fin de presentar resistencia al momento de un posible ataque externo.
+         */
+        !!@ ili2db.dispName = "(Institucional) Instalaciones militares"
+        Instalaciones_Militares,
+        /** Construcción con características de una vivienda que se encarga de brindar educación y asistencia integral a los niños
+         */
+        !!@ ili2db.dispName = "(Institucional) Jardín infantil en casa"
+        Jardin_Infantil_en_Casa,
+        /** Es un terreno que está destinado a árboles, jardines y prados donde se depositan los restos mortales o cadáveres.
+         */
+        !!@ ili2db.dispName = "(Institucional) Parque Cementerio"
+        Parque_Cementerio,
+        /** Centro cultural donde se realizan presentaciones astronómicas al público en general.
+         */
+        !!@ ili2db.dispName = "(Institucional) Planetario"
+        Planetario,
+        /** Son recintos cerrados, generalmente circulares y descubiertos, donde se celebran las corridas de toros.
+         */
+        !!@ ili2db.dispName = "(Institucional) Plaza de toros"
+        Plaza_de_Toros,
+        /** Edificio donde se atiende a la población en un primer nivel asistencial sanitario.
+         */
+        !!@ ili2db.dispName = "(Institucional) Puestos de salud"
+        Puestos_de_Salud,
+        /** Construcciones, oficiales o privadas, destinadas a salvaguardar obras de arte, reliquias o antigüedades de carácter histórico, religioso o científico, que representan un periodo, una época de la humanidad o del país.
+         */
+        !!@ ili2db.dispName = "(Institucional) Museos"
+        Museos,
+        /** Edificación donde habitan congregaciones religiosas de distintas órdenes menticantes en el itinerario de formación o consagración religiosa.
+         */
+        !!@ ili2db.dispName = "(Institucional) Seminarios, conventos"
+        Seminarios_Conventos,
+        /** Edificio o sala destinados a la representación de obras de teatro o de otro tipo de espectáculos, que dispone de un escenario y gradas o asientos para el público, se caracterizan por sus condiciones arquitectónicas
+         */
+        !!@ ili2db.dispName = "(Institucional) Teatro"
+        Teatro,
+        /** Escenario deportivo destinado a la práctica de distintas disciplinas deportivas.
+         */
+        !!@ ili2db.dispName = "(Institucional) Unidad deportiva"
+        Unidad_Deportiva,
+        /** Instalación deportiva donde se desarrollan carreras ciclistas o de patinaje.
+         */
+        !!@ ili2db.dispName = "(Institucional) Velódromo, patinódromo"
+        Velodromo_Patinodromo
+      ),
+      Anexo(
+        /** Depósito de agua construido a nivel del terreno con el propósito de almacenar agua, o en el caso de las bañadera con el fin de hacer limpieza al ganado, estas construcciones son cubiertas para guardar de la intemperie.
+         */
+        !!@ ili2db.dispName = "(Anexo) Albercas Bañaderas"
+        Albercas_Banaderas,
+        /** Nombre dado en zonas cafeteras a aquellas construcciones donde realizan el beneficio del café. Consiste en áreas cubiertas dentro de las cuales se encuentran los elementos destinados a la labor de seleccionar, lavar y despulpar el grano y su posterior empaque
+         */
+        !!@ ili2db.dispName = "(Anexo) Beneficiaderos"
+        Beneficiaderos,
+        /** Construcción para el desarrollo de proyectos acuícolas del cultivo de camarones.
+         */
+        !!@ ili2db.dispName = "(Anexo) Camaroneras"
+        Camaroneras,
+        /** Superficie de terreno adecuada sobre un placa para la practica de deportes como fútbol de salón, voleibol, balocento u alguna otra disciplina que haga uso de la cancha, todo ello a pequeña escala. Se excluyen las canchas de tenis, los estadios, coliseo u otras edificaciones de gran tamaño.
+         */
+        !!@ ili2db.dispName = "(Anexo) Canchas"
+        Canchas,
+        /** Superficie  terreno rectangular cruzada al medio por una red baja.
+         */
+        !!@ ili2db.dispName = "(Anexo) Canchas de tenis"
+        Canchas_de_Tenis,
+        /** Es una vía de transporte de dominio y uso público, proyectada y construida fundamentalmente para la circulación de vehículos automóviles
+         */
+        !!@ ili2db.dispName = "(Anexo) Carretera"
+        Carretera,
+        /** Cada una de las superficies de un edificio que disponen de una cara al interior y de otra al exterior.
+         */
+        !!@ ili2db.dispName = "(Anexo) Cerramiento"
+        Cerramiento,
+        /** Construcción anexa conformada por unos cimientos, muros y placa base
+         */
+        !!@ ili2db.dispName = "(Anexo) Cimientos, estructura, muros y placa base"
+        Cimientos_Estructura_Muros_y_Placa_Base,
+        /** Construcciòn destinada a la cría y albergue de cerdos. Se utiliza cualesquiera de los tres nombres enunciados según la región donde se ubique; los elementos que la conforman son: estructura, muros y pisos.
+         */
+        !!@ ili2db.dispName = "(Anexo) Cocheras Marraneras Porquerizas"
+        Cocheras_Marraneras_Porquerizas,
+        /** Tenso estructuras, arquitectura textil, o membranas arquitectónicas, son los nombres con los que se le conoce a los tipos de estructura que emplean materiales que trabajan bajo tensión, sean membranas textiles, láminas, mallas de cables, etc.
+         */
+        !!@ ili2db.dispName = "(Anexo) Construcción en membrana arquitectónica"
+        Construccion_en_Membrana_Arquitectonica,
+        /** Un contenedor es un recipiente de carga para el transporte marítimo o fluvial, transporte terrestre y transporte multimodal adecuado para la vivienda o el comercio o servicios.
+         */
+        !!@ ili2db.dispName = "(Anexo) Contenedor"
+        Contenedor,
+        /** Sitio cerrado y descubierto que se utiliza par la cría y albergue de ganado generalmente vacuno. consta de los elementos estructura  y pisos.
+         */
+        !!@ ili2db.dispName = "(Anexo) Corrales"
+        Corrales,
+        /** Lugar cubierto donde se encierra ganado o caballos y/o se realizan actividades propias de su explotación, constituidos por estructura, cubierta, muros y pisos.
+         */
+        !!@ ili2db.dispName = "(Anexo) Establos Pesebreras Caballerizas"
+        Establos_Pesebreras_Caballerizas,
+        /** Son obras arquitectónicas  que se construyen con el objeto de elevar el nivel del agua de la fuente de riego a los sitios donde se desea utilizar.
+         */
+        !!@ ili2db.dispName = "(Anexo) Estación de bombeo"
+        Estacion_Bombeo,
+        /** Instalación que permite el tránsito de personas y la conexión con sistemas de transporte como buses, metro, tren, tranvía, terminales y estaciones, destinadas para la movilidad de las personas.
+         */
+        !!@ ili2db.dispName = "(Anexo) Estación de sistema de transporte"
+        Estacion_Sistema_Transporte,
+        /** Unidad construida con destino a la cría y/o protección de aves principalmente para explotación avícola.  Conformada por estructura cubierta pisos y muros que son parcialmente elaborados en ladrillo y el resto descubierto o con algún material provisional (plásticos, alambres, etc.).
+         */
+        !!@ ili2db.dispName = "(Anexo) Galpones Gallineros"
+        Galpones_Gallineros,
+        /** Construcción en materiales livianos soportados sobre una base sólida anclada al piso, para uso temporal de vivienda (recreativa o de esparcimiento), generalmente aislada de otro tipo de construcciones
+         */
+        !!@ ili2db.dispName = "(Anexo) Glamping"
+        Glamping,
+        /** Espacio destinado para el almacenamiento y disposición de aeronaves.
+         */
+        !!@ ili2db.dispName = "(Anexo) Hangar"
+        Hangar,
+        /** Construcción consistente en una cubierta apoyada en columnas de materiales diferentes, elaborados con el fin de guarecer de la intemperie.
+         */
+        !!@ ili2db.dispName = "(Anexo) Kioscos"
+        Kioscos,
+        /** Son depósitos construidos mediante la excavación y compactación de la tierra que almacenan agua de cualquier calidad por un periodo determinado
+         */
+        !!@ ili2db.dispName = "(Anexo) Lagunas de oxidación"
+        Lagunas_de_Oxidacion,
+        /** Cobertizo dentro de una edificación de mayor extensión o patio cubierto, clasificados según su estructura, pisos y el material de la cubierta.
+         */
+        !!@ ili2db.dispName = "(Anexo) Marquesinas Patios cubiertos"
+        Marquesinas_Patios_Cubiertos,
+        /** Deberán diferenciarse de acuerdo a su estructura, longitud, capacidad, usos turísticos o de carga
+         */
+        !!@ ili2db.dispName = "(Anexo) Muelles"
+        Muelles,
+        /** Se denomina muralla a un muro cerrado destinado a la protección y defensa de determinado sitio.
+         */
+        !!@ ili2db.dispName = "(Anexo) Murallas"
+        Murallas,
+        /** Las pérgolas son estructuras compuestas por columnas y una armazón superior, cubiertas con mucho follaje o toldo especial que protegen de la lluvia y el sol, también usadas como elemento decorativo en un espacio de las viviendas.
+         */
+        !!@ ili2db.dispName = "(Anexo) Pérgolas"
+        Pergolas,
+        /** Estanque artificial con destino al deporte o a la recreación.  Se diferencia por sus acabados y especificaciones técnicas para su mantenimiento y operación; sus dimensiones deben darse en unidades de área (m2).
+         */
+        !!@ ili2db.dispName = "(Anexo) Piscinas"
+        Piscinas,
+        /** Edificación sin cubierta con que se identifican las pistas de los aeropuertos construidas en asfalto o concreto, incluye la zona o calle de redaje y calles de salida rápida.
+         */
+        !!@ ili2db.dispName = "(Anexo) Pista aeropuerto"
+        Pista_Aeropuerto,
+        /** Perforaciones profundas  manuales para extraer agua subterránea.  Medida en metros de profundidad.
+         */
+        !!@ ili2db.dispName = "(Anexo) Pozos"
+        Pozos,
+        /** Consiste en un sitio cubierto elaborado con el fin de resguardar de la intemperie; el nombre de enramadas, cobertizos o caney se utiliza según la forma de la cubierta y la región donde se ubique.
+         */
+        !!@ ili2db.dispName = "(Anexo) Ramadas Cobertizos Caneyes"
+        Ramadas_Cobertizos_Caneyes,
+        /** Construcciones elaboradas con el objeto de secar en condiciones naturales el café principalmente, aunque es común su uso en otros productos.  Consta de estructura y pisos para su calificación
+         */
+        !!@ ili2db.dispName = "(Anexo) Secaderos"
+        Secaderos,
+        /** Construcción de grandes dimensiones que sirve para almacén o depósito, se exceptúan los silos cafeteros
+         */
+        !!@ ili2db.dispName = "(Anexo) Silos"
+        Silos,
+        /** Depósitos subterráneos o de altura, construidos en zonas con deficiencias en abastecimiento para el consumo de los habitantes o para el uso agrícola.  El elemento a calificar es la estructura relacionada con la capacidad de almacenamiento medida en metros cúbicos.
+         *  
+         * Se excluyen de este tipo de construcción los tanques de almacenamiento domiciliario
+         */
+        !!@ ili2db.dispName = "(Anexo) Tanques"
+        Tanques,
+        /** Deslizadores construidos alrededor de piscinas, medidos en metros lineales.  Se clasifican según su altura y materiales de construcción
+         */
+        !!@ ili2db.dispName = "(Anexo) Toboganes"
+        Toboganes,
+        /** Edificio en forma de torre, en cuya cima se sitúa una sala de control, desde la que se dirige y controla el tráfico de un puerto, de un aeropuerto o de un circuito de carreras.
+         */
+        !!@ ili2db.dispName = "(Anexo) Torre de control"
+        Torre_de_Control,
+        /** Son estructuras diseñadas para disminuir la temperatura del agua y otros medios.
+         */
+        !!@ ili2db.dispName = "(Anexo) Torres de enfriamiento"
+        Torres_de_Enfriamiento,
+        /** Parte de la infraestructura ferroviaria que une dos puntos determinados del territorio
+         */
+        !!@ ili2db.dispName = "(Anexo) Vía férrea"
+        Via_Ferrea
+      )
+    );
+
+  TOPIC Captura_Campo =
+    OID AS INTERLIS.UUIDOID;
+
+    !!@ ili2db.dispName = "Adjunto"
+    STRUCTURE CCA_Adjunto =
+      Archivo : TEXT;
+      Observaciones : TEXT;
+      Procedencia : TEXT*20;
+    END CCA_Adjunto;
+
+    /** Clase que permite agrupar las unidades de construcción por identificador, uso y tipología.
+     */
+    !!@ ili2db.dispName = "Caracteristicas Unidad Construccion"
+    CLASS CCA_CaracteristicasUnidadConstruccion =
+      /** Identificador de la unidad de construcción, su codificación puede ser por letras del abecedario.
+       */
+      Identificador : MANDATORY TEXT*3;
+      /** Es el conjunto de elementos constructivos que conforman una edificación y que de acuerdo a sus características pueden ser consideradas convencionales cuando son de uso residencial, comercial e industrial o no convencionales cuando son anexos de la construcción.
+       */
+      !!@ ili2db.dispName = "Tipo Unidad Construccion"
+      Tipo_Unidad_Construccion : MANDATORY Captura_Campo_ANT_V1_0.CCA_UnidadConstruccionTipo;
+      /** Destinación de los materiales de una unidad constructiva con respecto a la actividad económica desarrollada en la edificación del predio.
+       */
+      Uso : MANDATORY Captura_Campo_ANT_V1_0.CCA_UsoUConsTipo;
+      /** Año de construcción de la unidad de construcción.
+       */
+      !!@ ili2db.dispName = "Año de la Construcción"
+      Anio_Construccion : 1512 .. 2500;
+      /** Área total construida en la unidad de construcción.
+       */
+      !!@ ili2db.dispName = "Área total de la construcción"
+      Area_Total_Construccion : 0.0 .. 99999999999999.9;
+      /** Área total privada de la unidad de construcción para los predios en régimen de propiedad horizontal.
+       */
+      !!@ ili2db.dispName = "Área  privada construida"
+      Area_Privada_Construida : 0.0 .. 99999999999999.9;
+      /** Observaciones generales respecto de la unidad de construcción.
+       */
+      Observaciones : TEXT;
+      !!@ ili2db.dispName = "Tipo de anexo"
+      Tipo_Anexo : Captura_Campo_ANT_V1_0.CCA_AnexoTipo;
+      !!@ ili2db.dispName = "Estrato"
+      Estrato_Tipo : Captura_Campo_ANT_V1_0.CCA_EstratoTipo;
+      /** Número total de plantas en la unidad de construcción.
+       */
+      !!@ ili2db.dispName = "Total Plantas"
+      Total_Plantas : 0 .. 150;
+      !!@ ili2db.dispName = "Estructura Armazon"
+      Estructura_Armazon : Captura_Campo_ANT_V1_0.CCA_EstructuraArmazon;
+      Acabados : Captura_Campo_ANT_V1_0.CCA_Acabados;
+      Cercha : Captura_Campo_ANT_V1_0.CCA_Cercha;
+      Cubierta : Captura_Campo_ANT_V1_0.CCA_Cubierta;
+      Urbanizacion : Captura_Campo_ANT_V1_0.CCA_BooleanoTipo;
+      /** Dominio CCA_estadoconservaciontipo (malo, regular, bueno y excelente)
+       */
+      !!@ ili2db.dispName = "Conservacion de la tipologia"
+      Conservacion_Tipologia : Captura_Campo_ANT_V1_0.CCA_EstadoConservacionTipo;
+    END CCA_CaracteristicasUnidadConstruccion;
+
+    /** Clase que registra las instancias de los derechos que un interesado ejerce sobre un predio. Es una especialización de la clase COL_DRR del propio modelo.
+     */
+    !!@ ili2db.dispName = "Derecho"
+    CLASS CCA_Derecho =
+      /** Derecho que se ejerce.
+       */
+      Tipo : MANDATORY Captura_Campo_ANT_V1_0.CCA_DerechoTipo;
+      /** Fecha de inicio de tenencia del interesado con respecto al predio.
+       */
+      !!@ ili2db.dispName = "Fecha de Inicio de Tenencia en el predio"
+      Fecha_Inicio_Tenencia : MANDATORY INTERLIS.XMLDate;
+      Observacion : TEXT;
+    END CCA_Derecho;
+
+    /** Clase especializada de BaUnit, que describe la unidad administrativa básica para el caso de Colombia.
+     * El predio es la unidad territorial legal propia de Catastro. Está formada por el terreno y puede o no tener construcciones asociadas.
+     */
+    !!@ ili2db.dispName = "Predio"
+    CLASS CCA_Predio
+    EXTENDS LADM_COL_V3_1.LADM_Nucleo.COL_UnidadAdministrativaBasica =
+      /** Identificador único temporal de cada predio que se asigna en el desarrollo del levantamiento catastral.
+       */
+      !!@ ili2db.dispName = "QR Operacion"
+      QR_Operacion : MANDATORY TEXT*10;
+      !!@ ili2db.dispName = "QR definitivo de la operacion"
+      QR_Operacion_Definitivo : MANDATORY TEXT*10;
+      /** Corresponde al código del departamento al cual pertenece el predio. Es asignado por DIVIPOLA y tiene 2 dígitos.
+       */
+      Departamento : MANDATORY TEXT*2;
+      /** Corresponde al código del municipio al cual pertenece el predio. Es asignado por DIVIPOLA y tiene 3 dígitos.
+       */
+      Municipio : MANDATORY TEXT*3;
+      !!@ ili2db.dispName = "UIT"
+      UIT : MANDATORY TEXT*100;
+      !!@ ili2db.dispName = "Vereda"
+      Vereda : MANDATORY TEXT*100;
+      /** Dirección del predio.
+       */
+      Direccion : BAG {1..*} OF LADM_COL_V3_1.LADM_Nucleo.CCA_ExtDireccion;
+      /** Circulo registral
+       */
+      !!@ ili2db.dispName = "Codigo ORIP"
+      Codigo_ORIP : TEXT*3;
+      /** Matricula inmobiliaria
+       */
+      !!@ ili2db.dispName = "Matricula Inmobiliaria"
+      Matricula_Inmobiliaria : TEXT;
+      /** Nuevo Código numérico de treinta (30) dígitos, que se le asigna a cada predio y busca localizarlo inequívocamente en los documentos catastrales, según el modelo determinado por el Instituto Geográfico Agustín Codazzi.
+       */
+      !!@ ili2db.dispName = "Numero Predial"
+      Numero_Predial : MANDATORY TEXT*30;
+      /** Caracterización temática del predio.
+       */
+      !!@ ili2db.dispName = "Condicion Predio"
+      Condicion_Predio : MANDATORY Captura_Campo_ANT_V1_0.CCA_CondicionPredioTipo;
+      !!@ ili2db.dispName = "Total Unidades Privadas"
+      Total_Unidades_Privadas : 0 .. 99999999;
+      !!@ ili2db.dispName = "Numero_Torres"
+      Numero_Torres : 0 .. 1000;
+      !!@ ili2db.dispName = "Area Total Terreno"
+      Area_Total_Terreno : 0.00 .. 99999999999999.98 [LADM_COL_V3_1.m2];
+      !!@ ili2db.dispName = "Area Total Terreno Privada"
+      Area_Total_Terreno_Privada : 0.00 .. 99999999999999.98 [LADM_COL_V3_1.m2];
+      !!@ ili2db.dispName = "Area Total Terreno Comun"
+      Area_Total_Terreno_Comun : 0.00 .. 99999999999999.98 [LADM_COL_V3_1.m2];
+      !!@ ili2db.dispName = "Area Total Construida"
+      Area_Total_Construida : 0.00 .. 99999999999999.98 [LADM_COL_V3_1.m2];
+      !!@ ili2db.dispName = "Area Total Construida Privada"
+      Area_Total_Construida_Privada : 0.00 .. 99999999999999.98 [LADM_COL_V3_1.m2];
+      !!@ ili2db.dispName = "Area Total Construida Comun"
+      Area_Total_Construida_Comun : 0.00 .. 99999999999999.98 [LADM_COL_V3_1.m2];
+      !!@ ili2db.dispName = "Predio Matriz"
+      Predio_Matriz : TEXT*30;
+      !!@ ili2db.dispName = "Coeficiente Copropiedad"
+      Coeficiente_Copropiedad : 0.0000000000 .. 100.0000000000;
+      /** Es la clasificación para fines estadísticos que se da a cada inmueble en su conjunto_terreno, construcciones o edificaciones, en el momento de la identificación predial de conformidad con la actividad predominante que en él se desarrolle.
+       */
+      !!@ ili2db.dispName = "Destinacion Economica"
+      Destinacion_Economica : MANDATORY Captura_Campo_ANT_V1_0.CCA_DestinacionEconomicaTipo;
+      !!@ ili2db.dispName = "Resultado Visita"
+      Resultado_Visita : MANDATORY Captura_Campo_ANT_V1_0.CCA_ResultadoVisitaTipo;
+      /** Atributo que permite la descripción de otra situación no descrita en el dominio LC_ResultadoVisitaTipo.
+       */
+      !!@ ili2db.dispName = "¿Cual?"
+      Otro_Cual_Resultado_Visita : TEXT*255;
+      Nombres_Apellidos_Quien_Atendio : MANDATORY TEXT*150;
+      !!@ ili2db.dispName = "Fecha Visita"
+      Fecha_Visita_Predial : INTERLIS.XMLDate;
+      !!@ ili2db.dispName = "¿Quien Atiende es el mismo interesado?"
+      Atiende_Interesado : BOOLEAN;
+      !!@ ili2db.dispName = "Tipo Documento Quien Atendio"
+      Tipo_Documento_Quien_Atendio : Captura_Campo_ANT_V1_0.CCA_InteresadoDocumentoTipo;
+      !!@ ili2db.dispName = "Numero Documento Quien Atendio"
+      Numero_Documento_Quien_Atendio : TEXT*50;
+      /** Dirección de domicilio para notificaciones.
+       */
+      !!@ ili2db.dispName = "Domicilio Notificaciones"
+      Domicilio_Notificaciones : TEXT*255;
+      Celular : TEXT*20;
+      !!@ ili2db.dispName = "Correo Electronico"
+      Correo_Electronico : TEXT*100;
+      /** Indica si autoriza las notificaciones administrativas por medio de vía electrónica.
+       */
+      !!@ ili2db.dispName = "¿Autoriza Notificacion Correo electrónico?"
+      Autoriza_Notificaciones : BOOLEAN;
+      !!@ ili2db.dispName = "Historia Predio"
+      Historia_Predio : TEXT*1500;
+      !!@ ili2db.dispName = "Indique el número de personas que residen en el predio"
+      No_Personas_habitan_Predio : 0 .. 999;
+      !!@ ili2db.dispName = "¿Número de Niños Niñas y/o Adelecentes residen en el predio?"
+      Ninos_Ninas_Adolesc : 0 .. 999;
+      !!@ ili2db.dispName = "¿Cuántas personas mayores de 60 años residen en el predio?"
+      Personas_Tercera_Edad : 0 .. 999;
+      !!@ ili2db.dispName = "¿Cuántas mujeres adultas (menores de 60 años) residen en el predio?"
+      Mujeres_Adultas : 0 .. 999;
+      !!@ ili2db.dispName = "¿El hogar es de jefatura masculina o femenina?"
+      Jefatura : Captura_Campo_ANT_V1_0.CCA_SexoTipo;
+      !!@ ili2db.dispName = "¿Cuántas personas en condición de discapacidad residen en el predio?"
+      Personas_Discapacidad : 0 .. 999;
+      !!@ ili2db.dispName = "¿Cuántas personas que residen en el predio se identifican como campesinos?"
+      Personas_Campesinos : 0 .. 999;
+      !!@ ili2db.dispName = "¿Cuántas personas que residen en el predio se identifican como pertenecientes a un pueblo o comunidad étnica?"
+      Identidad_Etnica : 0 .. 999;
+      !!@ ili2db.dispName = "¿Cuántas personas que residen en el predio son victimas el conflicto armado?"
+      Personas_Victimas : 0 .. 999;
+      !!@ ili2db.dispName = "¿Cuántas personas que residen en el predio se identifican con diversidad sexual y de género?"
+      Identidad_Diversidad_Sexual : 0 .. 999;
+      !!@ ili2db.dispName = "¿Que tipo de pretension étnica tiene sobre el predio?"
+      Pretension_Colectiva : Captura_Campo_ANT_V1_0.CCA_PretensionColectivaTipo;
+      !!@ ili2db.dispName = "¿Pueblo o Comunidad que habita el predio?"
+      Pueblo_Comunidad : TEXT*20;
+      !!@ ili2db.dispName = "Metodo de intervencion"
+      MetodoIntervencion : MANDATORY Captura_Campo_ANT_V1_0.CCA_MetodoIntervencionTipo;
+      Observaciones : TEXT;
+      !!@ ili2db.dispName = "Nombre profesional reconocimiento"
+      Nombre_Reconocedor : MANDATORY TEXT*255;
+      !!@ ili2db.dispName = "Finalizado reconocedor"
+      Finalizado_reconocedor : BOOLEAN;
+      !!@ ili2db.dispName = "Fecha Finalización Reconocimiento"
+      Fecha_Finalizado_Reconocedor : INTERLIS.XMLDate;
+      !!@ ili2db.dispName = "Nombre Profesional de Calidad"
+      Nombre_Calidad : TEXT*255;
+      !!@ ili2db.dispName = "Aprobado Calidad"
+      Aprobado_calidad : BOOLEAN;
+      !!@ ili2db.dispName = "Fecha Aprobación Calidad"
+      Fecha_Aprobado_Calidad : INTERLIS.XMLDate;
+      !!@ ili2db.dispName = "¿El solicitante explota el predio directamente?"
+      Solicitante_Explota : MANDATORY BOOLEAN;
+      !!@ ili2db.dispName = "Descripcion de explotacion por terceros"
+      Descripcion_Explota_Terceros : TEXT*100;
+    END CCA_Predio;
+
+    /** Permite almacenar puntos de referencia para trabajo en campo
+     */
+    !!@ ili2db.dispName = "Punto Referencia"
+    CLASS CCA_PuntoReferencia =
+      !!@ ili2db.dispName = "Id Punto"
+      Id_Punto : MANDATORY 1 .. 9999999;
+      Punto : MANDATORY ISO19107_PLANAS_V3_0.GM_Point2D;
+      !!@ ili2db.dispName = "Nombre Dispositivo de Captura"
+      Dispositivo_Captura : TEXT*20;
+      /** Describe la cercanía en posición de los objetos en el conjunto de datos, con respecto a sus posiciones verdaderas (o las asumidas como verdaderas).
+       */
+      !!@ ili2db.dispName = "Exactitud horizontal"
+      Exactitud_Horizontal : 0.000 .. 10.000 [INTERLIS.m];
+      /** Describe la cercanía en posición de los objetos en el conjunto de datos, con respecto a sus posiciones verdaderas (o las asumidas como verdaderas).
+       */
+      !!@ ili2db.dispName = "Exactitud vertical"
+      Exactitud_Vertical : 0.000 .. 10.000 [INTERLIS.m];
+      !!@ ili2db.dispName = "Fecha Captura"
+      Fecha_Captura : INTERLIS.XMLDate;
+      !!@ ili2db.dispName = "Nombre del reconocedor"
+      Nombre_Reconocedor : TEXT*255;
+      !!@ ili2db.dispName = "Descripción Punto"
+      Descripcion : TEXT*500;
+    END CCA_PuntoReferencia;
+
+    /** Porción de tierra con una extensión geográfica definida.
+     */
+    !!@ ili2db.dispName = "Terreno"
+    CLASS CCA_Terreno =
+      Area_terreno : MANDATORY 0.0 .. 99999999999999.9 [LADM_COL_V3_1.m2];
+      Geometria : MANDATORY ISO19107_PLANAS_V3_0.GM_MultiSurface3D;
+    END CCA_Terreno;
+
+    /** Clase que almacena las fuentes administrativas (escrituras, sentencias, actos administrativos, etc) que sustentan el Derecho respecto de la relación de tenencia entre el Interesado y el predio.
+     */
+    !!@ ili2db.dispName = "Fuente Administrativa"
+    CLASS CCA_FuenteAdministrativa =
+      Tipo : MANDATORY Captura_Campo_ANT_V1_0.CCA_FuenteAdministrativaTipo;
+      !!@ ili2db.dispName = "Numero del documento"
+      Numero_Fuente : TEXT*150;
+      !!@ ili2db.dispName = "Fecha de expedición del documento"
+      Fecha_Documento_Fuente : INTERLIS.XMLDate;
+      !!@ ili2db.dispName = "Ente emisor del documento"
+      Ente_Emisor : TEXT*255;
+      Adjunto : BAG {0..*} OF Captura_Campo_ANT_V1_0.Captura_Campo.CCA_Adjunto;
+      Observacion : LADM_COL_V3_1.LADM_Nucleo.CharacterString;
+    END CCA_FuenteAdministrativa;
+
+    /** Es la parte que tiene una relación con el predio por algún tipo de derecho, restricción, publicidad o responsabilidad
+     */
+    !!@ ili2db.dispName = "Interesado"
+    CLASS CCA_Interesado =
+      /** Tipo de persona del que se trata
+       */
+      Tipo : MANDATORY Captura_Campo_ANT_V1_0.CCA_InteresadoTipo;
+      /** Tipo de documento del que se trata.
+       */
+      !!@ ili2db.dispName = "Tipo Documento"
+      Tipo_Documento : MANDATORY Captura_Campo_ANT_V1_0.CCA_InteresadoDocumentoTipo;
+      /** Documento de identidad del interesado.
+       */
+      !!@ ili2db.dispName = "Documento de Identidad"
+      Documento_Identidad : MANDATORY TEXT*50;
+      /** Primer nombre de la persona física.
+       */
+      !!@ ili2db.dispName = "Primer Nombre"
+      Primer_Nombre : TEXT*100;
+      /** Segundo nombre de la persona física.
+       */
+      !!@ ili2db.dispName = "Segundo Nombre"
+      Segundo_Nombre : TEXT*100;
+      /** Primer apellido de la persona física.
+       */
+      !!@ ili2db.dispName = "Primer Apellido"
+      Primer_Apellido : TEXT*100;
+      /** Segundo apellido de la persona física.
+       */
+      !!@ ili2db.dispName = "Segundo Apellido"
+      Segundo_Apellido : TEXT*100;
+      !!@ ili2db.dispName = "Fecha de Nacimiento"
+      Fecha_Nacimiento : INTERLIS.XMLDate;
+      /** Condición orgánica que distingue a los machos de las hembras.
+       */
+      Sexo : Captura_Campo_ANT_V1_0.CCA_SexoTipo;
+      !!@ ili2db.dispName = "Estado Civil"
+      Estado_Civil : Captura_Campo_ANT_V1_0.CCA_EstadoCivilTipo;
+      !!@ ili2db.dispName = "Grupo Etnico"
+      Grupo_Etnico : Captura_Campo_ANT_V1_0.CCA_GrupoEtnicoTipo;
+      /** Nombre jurídico que recibe un sociedad colectiva o empresa constituida legalmente, con el cual se encuentra inscrito.
+       */
+      !!@ ili2db.dispName = "Razon Social"
+      Razon_Social : TEXT*255;
+      Adjunto : BAG {0..*} OF Captura_Campo_ANT_V1_0.Captura_Campo.CCA_Adjunto;
+      /** Departamento de residencia del interesado.
+       */
+      Departamento : TEXT*100;
+      /** Corresponde al código del municipio al cual pertenece el predio. Es asignado por DIVIPOLA y tiene 3 dígitos.
+       */
+      !!@ ili2db.dispName = "Municipio"
+      Municipio : TEXT*100;
+      /** Dirección de residencia del interesado.
+       */
+      !!@ ili2db.dispName = "Direccion de Residencia"
+      Direccion_Residencia : TEXT*500;
+      /** Numero de telefono de contacto del interesado.
+       */
+      Telefono : TEXT*20;
+      /** Correo electrónico del interesado.
+       */
+      !!@ ili2db.dispName = "Correo Electronico"
+      Correo_Electronico : TEXT*100;
+      /** Indica si el interesado autoriza notificación vía correo electrónico
+       */
+      !!@ ili2db.dispName = "¿Autoriza Notificacion Correo electrónico?"
+      Autoriza_Notificacion_Correo : BOOLEAN;
+      !!@ ili2db.dispName = "¿Es Jefe de Hogar?"
+      Interesado_Jefe_Hogar : BOOLEAN;
+      !!@ ili2db.dispName = "¿Es victima del conflicto Armado?"
+      Interesado_Victima_conflicto : BOOLEAN;
+      !!@ ili2db.dispName = "¿Reside en el predio?"
+      Reside_Predio : BOOLEAN;
+      /** Autorizo a la Agencia Nacional de Tierras - ANT registrarme públicamente como sujeto de ordenamiento social de la propiedad en el Registro de Sujetos de Ordenamiento – RESO en caso de que aplique, así como realizar consultas de información, tendiente a la verificación de los requisitos dispuestos en el Decreto Ley 902 de 2017 y disposiciones reglamentarias para la inscripción en el RESO y demás actuaciones administrativas que se encuentren vinculadas con el trámite principal
+       */
+      !!@ ili2db.dispName = "El interesado acepta ser sujeto de ordenamiento"
+      Acepta_OSPR : MANDATORY BOOLEAN;
+      /** Bajo la gravedad de juramento declaro que la información personal suministrada es verdadera y autorizo que sea verificada con otras fuentes de información y que se actualice de forma automática a través del cruce de registros administrativos y consultas de información a la DIAN, de acuerdo con lo dispuesto en el artículo 584 del estatuto tributario Decreto 624 de 1989: "Examen de la declaración con autorización del declarante ", u otras fuentes que la ANT defina. Cualquier presunta falsedad identificada a través de cruces de bases de datos generará la exclusión del RESO y no podrá ingresar en un periodo de 10 años, independiente de las acciones legales que haya lugar. (Artículo 15 del Decreto 902 de 2017)
+       */
+      !!@ ili2db.dispName = "Declaracion Informacion Veridica"
+      Declaracion_Informacion_Veridica : BOOLEAN;
+      !!@ ili2db.dispName = "Quien Reside"
+      Quien_Reside : TEXT*255;
+    END CCA_Interesado;
+
+    /** Es cada conjunto de materiales consolidados dentro de un predio que tiene unas características específicas en cuanto a elementos constitutivos físicos y usos de la misma.
+     */
+    !!@ ili2db.dispName = "Unidad Construccion"
+    CLASS CCA_UnidadConstruccion =
+      !!@ ili2db.dispName = "Planta Ubicación"
+      Planta_Ubicacion : MANDATORY 0 .. 500;
+      !!@ ili2db.dispName = "Tipo Planta"
+      Tipo_Planta : MANDATORY Captura_Campo_ANT_V1_0.CCA_ConstruccionPlantaTipo;
+      /** Area total construida en la unidad de construcción.
+       */
+      !!@ ili2db.dispName = "Area Construida"
+      Area_Construida : MANDATORY 0.0 .. 99999999999999.9;
+      /** Altura total de la unidad de construcción.
+       */
+      Altura : 0.000 .. 1000.000 [INTERLIS.m];
+      Geometria : ISO19107_PLANAS_V3_0.GM_MultiSurface3D;
+      !!@ ili2db.dispName = "Adjunto - Fotografía"
+      Adjunto : BAG {0..*} OF Captura_Campo_ANT_V1_0.Captura_Campo.CCA_Adjunto;
+      !!@ ili2db.dispName = "Descripcion Adjunto"
+      Descripcion_Adjunto : TEXT*255;
+      !!@ ili2db.dispName = "Descripcion"
+      Descripcion : TEXT*100;
+    END CCA_UnidadConstruccion;
+
+    ASSOCIATION cca_predio_caracteristicasunidadconstruccion =
+      predio -- {1} CCA_Predio;
+      CaracteristicasUnidadConstruccion -- {0..*} CCA_CaracteristicasUnidadConstruccion;
+    END cca_predio_caracteristicasunidadconstruccion;
+
+    ASSOCIATION cca_predio_derecho =
+      predio -- {1} CCA_Predio;
+      derecho -- {0..1} CCA_Derecho;
+    END cca_predio_derecho;
+
+    ASSOCIATION cca_terreno_predio =
+      terreno -- {1} CCA_Terreno;
+      predio -- {0..1} CCA_Predio;
+    END cca_terreno_predio;
+
+    ASSOCIATION caracteristicasunidadconstruccion_unidadconstruccion =
+      caracteristicasunidadconstruccion -- {1} CCA_CaracteristicasUnidadConstruccion;
+      unidadconsutruccion -- {1..*} CCA_UnidadConstruccion;
+    END caracteristicasunidadconstruccion_unidadconstruccion;
+
+    ASSOCIATION cca_derecho_fuenteadministrativa =
+      derecho -- {1} CCA_Derecho;
+      fuente_administrativa -- {1..*} CCA_FuenteAdministrativa;
+    END cca_derecho_fuenteadministrativa;
+
+    ASSOCIATION cca_derecho_interesado =
+      derecho -- {1} CCA_Derecho;
+      interesado -- {1..*} CCA_Interesado;
+    END cca_derecho_interesado;
+
+  END Captura_Campo;
+
+END Captura_Campo_ANT_V1_0.
