@@ -1,0 +1,23 @@
+[general]
+name=GeoFILI SPO
+qgisMinimumVersion=3.0
+author=Ing. Jhon Mario Rodriguez
+email=jmaiorod9@gmail.com
+description=GeoFILI SPO (Consulta, Validación y estadarización)
+about=Conjunto de herramientas diseñadas para estandarizar información, consulta y validación sobre la Base de Datos geográfica FILI, control de Calidad de la información reportada para seguimiento a operaciones, todo lo anterior, en el marco de los procesos misionales de la Subdirección de Planeación Operativa.
+version=1.0
+repository=https://github.com/jmariorod0/fili.git
+tracker=https://github.com/jmariorod0/fili/issues
+icon=icon.png
+homepage=https://github.com/jmariorod0/fili
+
+[help]
+changelog=1.0 - Primera versión estable del plugin.
+
+[optional]
+tags=LADM, FILI, VALIDACION, SEGUIMIENTO, CALIDAD, ANT
+experimental=False
+deprecated=False
+plugin_dependencies=https://drive.google.com/drive/folders/1oqsLazEQHxjUHNSSjFiLppOl6zEGbTR2?usp=drive_link
+license=GPL-2.0-or-later
+category=Database
